@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Symfony\Component\BrowserKit\Client;
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\DomCrawler\Crawler;
 
 class IndicesController extends Controller
 {
     /**
      * Define as variáveis para usarmos como base
      */
-    private $goutteClient;
-    private $guzzleClient;
+    private $client;
 
     /**
      * Define as urls a qual iremos fazer o scraping
@@ -36,14 +33,18 @@ class IndicesController extends Controller
     
     function __construct()
     {
-        // Cria o cliente do goutte
-        $this->goutteClient = new Client();
+        $this->client = new Client();
+    }
 
-        // Cria o cliente do Guzzle
-        $this->guzzleClient = new GuzzleClient(['timeout' => 3,]);
-        
-        // Informa ao cliente do goutte que utilizaremos o guzzle
-        $this->goutteClient->setClient($this->guzzleClient);
+
+    public function getCrawler($url)
+    {
+        $client = new Client();
+        $response = $client->request('GET', $url);
+        $html = $response->getBody()->getContents();
+        $crawler = new Crawler($html);
+
+        return $crawler;
     }
 
     /**
@@ -115,7 +116,7 @@ class IndicesController extends Controller
      */
     public function indiceTjsp(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_tjsp);
+        $crawler = $this::getCrawler(self::url_tjsp);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -145,7 +146,7 @@ class IndicesController extends Controller
      */
     public function indiceOrtn(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_ortn);
+        $crawler = $this::getCrawler(self::url_ortn);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -175,7 +176,7 @@ class IndicesController extends Controller
      */
     public function indiceUfir(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_ufir);
+        $crawler = $this::getCrawler(self::url_ufir);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -205,7 +206,7 @@ class IndicesController extends Controller
      */
     public function indiceCadernetaPoupanca(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_caderneta_poupanca);
+        $crawler = $this::getCrawler(self::url_caderneta_poupanca);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -252,7 +253,7 @@ class IndicesController extends Controller
      */
     public function indiceIgpdi(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_igpdi);
+        $crawler = $this::getCrawler(self::url_igpdi);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -305,7 +306,7 @@ class IndicesController extends Controller
      */
     public function indiceIgpm(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_igpm);
+        $crawler = $this::getCrawler(self::url_igpm);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -358,7 +359,7 @@ class IndicesController extends Controller
      */
     public function indiceInpc(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_inpc);
+        $crawler = $this::getCrawler(self::url_inpc);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -412,7 +413,7 @@ class IndicesController extends Controller
     public function indiceIpca(): string
     {
         // dd("Ainda em implementação");
-        $crawler = $this->goutteClient->request('GET', self::url_ipca);
+        $crawler = $this::getCrawler(self::url_ipca);
         $anoMesIndice = [];
         
 
@@ -443,7 +444,7 @@ class IndicesController extends Controller
      */
     public function indiceSelic(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_selic);
+        $crawler = $this::getCrawler(self::url_selic);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -496,7 +497,7 @@ class IndicesController extends Controller
      */
     public function indiceIpcFipe(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_ipc_fipe);
+        $crawler = $this::getCrawler(self::url_ipc_fipe);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -549,7 +550,7 @@ class IndicesController extends Controller
      */
     public function indiceTr(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_tr);
+        $crawler = $this::getCrawler(self::url_tr);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
@@ -602,7 +603,7 @@ class IndicesController extends Controller
      */
     public function indiceTjmg(): string
     {
-        $crawler = $this->goutteClient->request('GET', self::url_tjmg);
+        $crawler = $this::getCrawler(self::url_tjmg);
         $anoMesIndice = [];
         
         for ($i=1; $i <= 12; $i++) { 
