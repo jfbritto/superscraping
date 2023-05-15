@@ -9,11 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class IndicesController extends Controller
 {
     /**
-     * Define as variáveis para usarmos como base
-     */
-    private $client;
-
-    /**
      * Define as urls a qual iremos fazer o scraping
      */
     const url_tjsp = "https://debit.com.br/tabelas/tabela-completa.php?indice=aasp";
@@ -31,13 +26,7 @@ class IndicesController extends Controller
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
     const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
     
-    function __construct()
-    {
-        $this->client = new Client();
-    }
-
-
-    public function getCrawler($url)
+    public static function getCrawler($url)
     {
         $client = new Client();
         $response = $client->request('GET', $url);
@@ -88,7 +77,6 @@ class IndicesController extends Controller
      */
     private function getDataIndiceIpca($crawler, $filtro): array 
     {
-
         return $crawler->filter($filtro)->each(function ($node) {
             $texto = trim($node->text());
             
@@ -103,7 +91,7 @@ class IndicesController extends Controller
      * @param array $anoMesIndice
      * @return string
      */
-    private function tipoRetorno($anoMesIndice): string 
+    private function tipoRetorno($anoMesIndice)
     {
         return json_encode($anoMesIndice);
         // return $anoMesIndice;
@@ -114,7 +102,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceTjsp(): string
+    public function indiceTjsp()
     {
         $crawler = $this::getCrawler(self::url_tjsp);
         $anoMesIndice = [];
@@ -127,16 +115,16 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
-                    echo $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'<br>';
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
                 }
             }
         }
-        die;
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('tjsp')->with('resultados', $resultados);
     }
 
     /**
@@ -144,7 +132,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceOrtn(): string
+    public function indiceOrtn()
     {
         $crawler = $this::getCrawler(self::url_ortn);
         $anoMesIndice = [];
@@ -157,24 +145,24 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
-                    echo $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'00<br>';
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
                 }
             }
         }
-        die;
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('ortn')->with('resultados', $resultados);
     }
 
     /**
-     * Busca os índices ORTN
+     * Busca os índices ufri
      *
      * @return string
      */
-    public function indiceUfir(): string
+    public function indiceUfir()
     {
         $crawler = $this::getCrawler(self::url_ufir);
         $anoMesIndice = [];
@@ -187,16 +175,16 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
-                    echo $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'00<br>';
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
                 }
             }
         }
-        die;
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('ufri')->with('resultados', $resultados);
     }
 
     /**
@@ -204,7 +192,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceCadernetaPoupanca(): string
+    public function indiceCadernetaPoupanca()
     {
         $crawler = $this::getCrawler(self::url_caderneta_poupanca);
         $anoMesIndice = [];
@@ -217,6 +205,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
             if ($key >= 2022) {
@@ -228,22 +217,16 @@ class IndicesController extends Controller
                         $valorCalculadoAnterior = 37.266534;
                     }
 
-                    // echo $key.';'.$key2.';'.$value2;
-
                     $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $value2) / 100);
 
                     $valorCalculadoAnterior = $result;
 
-                    // echo '   ->   '.number_format($valorCalculadoAnterior, 6);
-
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
-        die;
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('caderneta')->with('resultados', $resultados);
     }
 
     /**
@@ -251,7 +234,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceIgpdi(): string
+    public function indiceIgpdi()
     {
         $crawler = $this::getCrawler(self::url_igpdi);
         $anoMesIndice = [];
@@ -264,6 +247,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -287,16 +271,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('igpdi')->with('resultados', $resultados);
     }
 
     /**
@@ -304,7 +286,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceIgpm(): string
+    public function indiceIgpm()
     {
         $crawler = $this::getCrawler(self::url_igpm);
         $anoMesIndice = [];
@@ -316,7 +298,7 @@ class IndicesController extends Controller
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
         }
-
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -340,16 +322,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
-                    echo '<br>';
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('igpm')->with('resultados', $resultados);
     }
 
     /**
@@ -357,7 +337,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceInpc(): string
+    public function indiceInpc()
     {
         $crawler = $this::getCrawler(self::url_inpc);
         $anoMesIndice = [];
@@ -370,6 +350,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -393,16 +374,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('inpc')->with('resultados', $resultados);
     }
 
     /**
@@ -410,13 +389,14 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceIpca(): string
+    public function indiceIpca()
     {
         // dd("Ainda em implementação");
         $crawler = $this::getCrawler(self::url_ipca);
         $anoMesIndice = [];
         
 
+        $resultados = [];
         for ($j=1; $j <= 12; $j++) { 
             $i = 1;
             for ($i=1; $i <= 12; $i++) { 
@@ -427,14 +407,8 @@ class IndicesController extends Controller
                 }
             }
         }
-        dd($anoMesIndice);
-        die();
-
-        // #preview6 > div > table > tbody > tr:nth-child(2) > td.text-start
-        // #preview6 > div > table > tbody > tr:nth-child(2) > td:nth-child(2)
-        // #preview6 > div > table > tbody > tr:nth-child(2) > td:nth-child(3)
-
-        return self::tipoRetorno($anoMesIndice);
+        
+        return view('ipca')->with('resultados', $resultados);
     }
 
     /**
@@ -442,7 +416,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceSelic(): string
+    public function indiceSelic()
     {
         $crawler = $this::getCrawler(self::url_selic);
         $anoMesIndice = [];
@@ -455,6 +429,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -478,16 +453,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('selic')->with('resultados', $resultados);
     }
 
     /**
@@ -495,7 +468,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceIpcFipe(): string
+    public function indiceIpcFipe()
     {
         $crawler = $this::getCrawler(self::url_ipc_fipe);
         $anoMesIndice = [];
@@ -508,6 +481,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = []; 
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -531,16 +505,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('ipc')->with('resultados', $resultados);
     }
 
     /**
@@ -548,7 +520,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceTr(): string
+    public function indiceTr()
     {
         $crawler = $this::getCrawler(self::url_tr);
         $anoMesIndice = [];
@@ -561,6 +533,7 @@ class IndicesController extends Controller
             }
         }
 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -584,16 +557,14 @@ class IndicesController extends Controller
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    echo $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
-                    echo '<br>';
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        echo $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
-        die;
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        return self::tipoRetorno($anoMesIndice);
+        return view('tr')->with('resultados', $resultados);
     }
 
     /**
@@ -601,7 +572,7 @@ class IndicesController extends Controller
      *
      * @return string
      */
-    public function indiceTjmg(): string
+    public function indiceTjmg()
     {
         $crawler = $this::getCrawler(self::url_tjmg);
         $anoMesIndice = [];
@@ -614,16 +585,15 @@ class IndicesController extends Controller
             }
         }
 
-        // dd($anoMesIndice);
+        $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2000) {
                 foreach ($value as $key2 => $value2) {
-                    echo $key.';'.$key2.';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6).'<br>';
+                    $resultados[] = $key.';'.$key2.';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
                 }
             }
         }
-        die;
 
-        // return self::tipoRetorno($anoMesIndice);
+        return view('tjmg')->with('resultados', $resultados);
     }
 }
