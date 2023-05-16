@@ -81,13 +81,13 @@
             <a class="completed" target="_blank" href="{{ route('tjsp') }}">TJSP</a><br><br>
             <a class="completed" target="_blank" href="{{ route('ortn') }}">ORTN</a><br><br>
             <a class="completed" target="_blank" href="{{ route('ufir') }}">UFIR</a><br><br>
-            <a class="completed" target="_blank" href="{{ route('caderneta-poupanca') }}">CADERNETA POUPANÇA</a><br><br>
+            <a class="completed" target="_blank" href="{{ route('caderneta') }}">CADERNETA POUPANÇA</a><br><br>
             <a class="completed" target="_blank" href="{{ route('igpdi') }}">IGPDI</a><br><br>
             <a class="completed" target="_blank" href="{{ route('igpm') }}">IGPM</a><br><br>
             <a class="completed" target="_blank" href="{{ route('inpc') }}">INPC</a><br><br>
             <a target="_blank" href="{{ route('ipca') }}">IPCA</a><br><br>
             <a class="completed" target="_blank" href="{{ route('selic') }}">SELIC</a><br><br>
-            <a class="completed" target="_blank" href="{{ route('ipc-fipe') }}">IPC</a><br><br>
+            <a class="completed" target="_blank" href="{{ route('ipc') }}">IPC</a><br><br>
             <a class="completed" target="_blank" href="{{ route('tr') }}">TR</a><br><br>
             <a class="completed" target="_blank" href="{{ route('tjmg') }}">TJMG</a>
         </div>
