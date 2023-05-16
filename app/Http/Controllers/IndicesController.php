@@ -124,6 +124,10 @@ class IndicesController extends Controller
             }
         }
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('tjsp')->with('resultados', $resultados);
     }
 
@@ -154,6 +158,10 @@ class IndicesController extends Controller
             }
         }
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('ortn')->with('resultados', $resultados);
     }
 
@@ -184,6 +192,10 @@ class IndicesController extends Controller
             }
         }
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('ufri')->with('resultados', $resultados);
     }
 
@@ -226,6 +238,10 @@ class IndicesController extends Controller
             }
         }
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('caderneta')->with('resultados', $resultados);
     }
 
@@ -278,6 +294,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('igpdi')->with('resultados', $resultados);
     }
 
@@ -329,6 +349,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('igpm')->with('resultados', $resultados);
     }
 
@@ -381,6 +405,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('inpc')->with('resultados', $resultados);
     }
 
@@ -408,6 +436,10 @@ class IndicesController extends Controller
             }
         }
         
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('ipca')->with('resultados', $resultados);
     }
 
@@ -460,6 +492,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('selic')->with('resultados', $resultados);
     }
 
@@ -512,6 +548,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('ipc')->with('resultados', $resultados);
     }
 
@@ -564,6 +604,10 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('tr')->with('resultados', $resultados);
     }
 
@@ -594,6 +638,10 @@ class IndicesController extends Controller
             }
         }
 
+        foreach ($resultados as $key => $value) {
+            echo $value."\n";
+        }
+        die;
         return view('tjmg')->with('resultados', $resultados);
     }
 }
