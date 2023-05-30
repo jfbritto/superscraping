@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Indscraping</title>
+    <title>Indscraping @if (!empty($titulo)) | {{ $titulo }} @endif </title>
+    <link rel="shortcut icon" href="https://cdn.icon-icons.com/icons2/620/PNG/512/ascendant-bars-graphic_icon-icons.com_56869.png" type="image/x-icon">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <style>
 
