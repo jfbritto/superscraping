@@ -33,5 +33,5 @@ Route::get('/tr/json', [IndicesJsonController::class, 'indiceTr'])->name('tr/jso
 Route::get('/tjmg/json', [IndicesJsonController::class, 'indiceTjmg'])->name('tjmg/json');
 
 Route::get('/', function(){
-    return view('welcome');
+    return view('welcome')->with('resultados', [])->with('titulo', '');;
 });
