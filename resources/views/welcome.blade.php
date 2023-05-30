@@ -7,6 +7,7 @@
 
         html, body {
             height: 100%;
+            background-color: #f7f7f8;
         }
         .wrapper {
             display: flex;
@@ -14,7 +15,9 @@
         }
         
         #sidebar {
-            background-color: #f5f5f5;
+            width: 200px;
+            background-color: #202123; /* Cor de fundo escura */
+            color: #fff !important; /* Cor do texto */
             padding: 20px;
         }
         
@@ -22,6 +25,14 @@
             flex: 1;
             padding: 20px;
         }
+
+        .nav-link {
+            color: #fff;
+        }
+        .nav-link:hover {
+            color: #fff;
+        }
+
     </style>
 </head>
 <body>
@@ -29,40 +40,40 @@
         <div id="sidebar">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tjsp') }}">TJSP</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('tjsp') }}">TJSP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('ortn') }}">ORTN</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('ortn') }}">ORTN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('ufir') }}">UFIR</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('ufir') }}">UFIR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('caderneta') }}">POUPANÇA</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('caderneta') }}">POUPANÇA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('igpdi') }}">IGPDI</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('igpdi') }}">IGPDI</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('igpm') }}">IGPM</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('igpm') }}">IGPM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('inpc') }}">INPC</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('inpc') }}">INPC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('ipca') }}">IPCA</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('ipca') }}">IPCA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('selic') }}">SELIC</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('selic') }}">SELIC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('ipc') }}">IPC</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('ipc') }}">IPC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tr') }}">TR</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('tr') }}">TR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tjmg') }}">TJMG</a>
+                    <a class="btn btn-secondary nav-link" href="{{ route('tjmg') }}">TJMG</a>
                 </li>
             </ul>
         </div>
