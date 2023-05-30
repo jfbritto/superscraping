@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#1bb0be">
     <title>Indscraping @if (!empty($titulo)) | {{ $titulo }} @endif </title>
+    
+    <meta name="theme-color" content="#010005">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name=”keywords” content="ATUALIZAÇÃO MONETÁRA" />
+    <meta property="og:url" content="https://indscraping.herokuapp.com/" />
+    <meta property="type" content="website" />
+    <meta property="og:title" content="Indscraping">
+    <meta property="og:description" content="Atualização Monetária">
+    <meta property="og:image" content="https://cdn.icon-icons.com/icons2/620/PNG/512/ascendant-bars-graphic_icon-icons.com_56869.png">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="640">
+    <meta property="og:image:height" content="480">
+
     <link rel="shortcut icon" href="https://cdn.icon-icons.com/icons2/620/PNG/512/ascendant-bars-graphic_icon-icons.com_56869.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <style>
