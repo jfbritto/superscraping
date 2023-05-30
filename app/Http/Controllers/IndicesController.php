@@ -154,10 +154,6 @@ class IndicesController extends Controller
             }
         }
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'ORTN');
     }
 
@@ -188,10 +184,6 @@ class IndicesController extends Controller
             }
         }
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'UFRI');
     }
 
@@ -234,10 +226,6 @@ class IndicesController extends Controller
             }
         }
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'CADERNETA POUPANÇA');
     }
 
@@ -290,10 +278,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IGPDI');
     }
 
@@ -345,10 +329,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IGPM');
     }
 
@@ -401,10 +381,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'INPC');
     }
 
@@ -432,10 +408,6 @@ class IndicesController extends Controller
             }
         }
         
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPCA');
     }
 
@@ -488,10 +460,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'SELIC');
     }
 
@@ -544,10 +512,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPC FIPE');
     }
 
@@ -600,10 +564,6 @@ class IndicesController extends Controller
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'TR');
     }
 
@@ -634,10 +594,6 @@ class IndicesController extends Controller
             }
         }
 
-        // foreach ($resultados as $key => $value) {
-        //     echo $value."<br>";
-        // }
-        // die;
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'TJMG');
     }
 }

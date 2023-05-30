@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndicesController;
 use App\Http\Controllers\IndicesJsonController;
 
-Route::get('/webscrape', [IndicesController::class, 'scrape'])->name('webscrape');
-
 Route::get('/tjsp', [IndicesController::class, 'indiceTjsp'])->name('tjsp');
 Route::get('/ortn', [IndicesController::class, 'indiceOrtn'])->name('ortn');
 Route::get('/ufir', [IndicesController::class, 'indiceUfir'])->name('ufir');
