@@ -391,6 +391,9 @@ class IndicesController extends Controller
      */
     public function indiceIpca()
     {
+        //assim que eu resolver removo
+        return view('welcome')->with('resultados', ['Índice em manutenção'])->with('titulo', 'IPCA');
+
         // dd("Ainda em implementação");
         $crawler = $this::getCrawler(self::url_ipca);
         $anoMesIndice = [];
