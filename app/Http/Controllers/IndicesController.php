@@ -27,7 +27,10 @@ class IndicesController extends Controller
 
     public function index()
     {
-        $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv';
+        $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv que ficam nos diretórios:';
+        $resultados[] = '';
+        $resultados[] = '/home/cloud/var/tabelas/';
+        $resultados[] = '/home/cloud/public/atualizacaomonetaria/';
 
         return view('welcome')
                 ->with('resultados', $resultados)
@@ -112,6 +115,7 @@ class IndicesController extends Controller
         }
 
         $resultados = [];
+        $resultados = ['Esse índice em nosso sistema leva o nome: tabelaAtualizacaoMonetaria.csv', ''];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
