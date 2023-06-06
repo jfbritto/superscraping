@@ -4,7 +4,6 @@
     <title>Indscraping @if (!empty($titulo)) | {{ $titulo }} @endif </title>
     
     <meta name="theme-color" content="#010005">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
