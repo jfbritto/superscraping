@@ -18,7 +18,7 @@ class IndicesController extends Controller
     const url_igpdi = "https://debit.com.br/tabelas/tabela-completa.php?indice=igp";
     const url_igpm = "https://debit.com.br/tabelas/tabela-completa.php?indice=igpm";
     const url_inpc = "https://debit.com.br/tabelas/tabela-completa.php?indice=inpc";
-    const url_ipca = "https://www.ecalculos.com.br/utilitarios/ipca-ibge.php";
+    const url_ipca = "http://www.ecalculos.com.br/utilitarios/ipca-ibge.php";
     const url_selic = "https://debit.com.br/tabelas/tabela-completa.php?indice=selic";
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
