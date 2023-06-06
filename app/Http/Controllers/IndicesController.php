@@ -606,7 +606,7 @@ class IndicesController extends Controller
             }
         }
 
-        $resultados = ['Os resultados desse índice devem ser replicados para os demais: TJMG, TJDF, TJES, TJRO e ENCOGE.', ''];
+        $resultados = ['Os resultados desse índice devem ser replicados para os demais: TJDF, TJES, TJRO e ENCOGE.', ''];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2000) {
                 foreach ($value as $key2 => $value2) {
