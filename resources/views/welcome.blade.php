@@ -60,6 +60,11 @@
 <body>
     <div class="wrapper">
         <div id="sidebar">
+            <div class="text-center mb-1" style="top:15px">
+                <a href="/">
+                    <img src="{{ asset('img/logo.png') }}" class="img rounded" width="140">
+                </a>
+            </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'TJSP') nav-link-active @endif mb-1" href="{{ route('tjsp') }}">TJSP</a>
@@ -71,7 +76,7 @@
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'UFIR') nav-link-active @endif mb-1" href="{{ route('ufir') }}">UFIR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'CADERNETA POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">CADERNETA POUPANÇA</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">POUPANÇA</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPDI') nav-link-active @endif mb-1" href="{{ route('igpdi') }}">IGPDI</a>
@@ -98,6 +103,9 @@
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'TJMG') nav-link-active @endif mb-1" href="{{ route('tjmg') }}">TJMG</a>
                 </li>
             </ul>
+            <div class="text-center" style="position: absolute; bottom:15px; margin-left: 35px">
+                <a href="https://github.com/jfbritto/superscraping" target="_blank"><img src="https://github.com/jfbritto.png" class="img rounded-circle" width="70"></a>
+            </div>
         </div>
         <div id="content">
             <h2>{{ $titulo }}</h2>

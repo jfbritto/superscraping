@@ -14,12 +14,10 @@ class IndicesController extends Controller
     const url_tjsp = "https://debit.com.br/tabelas/tabela-completa.php?indice=aasp";
     const url_ortn = "https://debit.com.br/tabelas/tabela-completa.php?indice=btn";
     const url_ufir = "https://debit.com.br/tabelas/tabela-completa.php?indice=ufir";
-
     const url_caderneta_poupanca = "https://debit.com.br/tabelas/tabela-completa.php?indice=poupanca";
     const url_igpdi = "https://debit.com.br/tabelas/tabela-completa.php?indice=igp";
     const url_igpm = "https://debit.com.br/tabelas/tabela-completa.php?indice=igpm";
     const url_inpc = "https://debit.com.br/tabelas/tabela-completa.php?indice=inpc";
-    // const url_ipca = "https://debit.com.br/tabelas/ipca-indice-nacional-de-precos-ao-consumidor-amplo.php"; #posição é diferente
     const url_ipca = "https://www.ecalculos.com.br/utilitarios/ipca-ibge.php";
     const url_selic = "https://debit.com.br/tabelas/tabela-completa.php?indice=selic";
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
@@ -28,8 +26,10 @@ class IndicesController extends Controller
 
     public function index()
     {
+        $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv';
+
         return view('welcome')
-                ->with('resultados', ['Basta copiar os resultados e colar em seus respectivos arquivos .csv'])
+                ->with('resultados', $resultados)
                 ->with('titulo', 'ÍNDICES MONETÁRIOS CALCULADOS');
     }
     
@@ -179,7 +179,7 @@ class IndicesController extends Controller
             }
         }
 
-        return view('welcome')->with('resultados', $resultados)->with('titulo', 'UFRI');
+        return view('welcome')->with('resultados', $resultados)->with('titulo', 'UFIR');
     }
 
     /**
@@ -221,7 +221,7 @@ class IndicesController extends Controller
             }
         }
 
-        return view('welcome')->with('resultados', $resultados)->with('titulo', 'CADERNETA POUPANÇA');
+        return view('welcome')->with('resultados', $resultados)->with('titulo', 'POUPANÇA');
     }
 
     /**
