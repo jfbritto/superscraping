@@ -386,7 +386,10 @@ class IndicesController extends Controller
      */
     public function indiceIpca()
     {
-        $crawler = $this::getCrawler(self::url_ipca);
+        $client = new Client();
+        $response = $client->request('GET', self::url_ipca);
+        $html = $response->getBody()->getContents();
+        $crawler = new Crawler($html);
         $anoMesIndice = [];
 
        // Encontrar todas as tabelas na página
