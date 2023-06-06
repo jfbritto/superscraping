@@ -30,7 +30,7 @@ class IndicesController extends Controller
     {
         return view('welcome')
                 ->with('resultados', ['Basta copiar os resultados e colar em seus respectivos arquivos .csv'])
-                ->with('titulo', 'SISTEMA DE CÁLCULO DE ÍNDICES MONETÁRIOS');
+                ->with('titulo', 'ÍNDICES MONETÁRIOS CALCULADOS');
     }
     
     public static function getCrawler($url)
