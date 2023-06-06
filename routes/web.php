@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndicesController;
 use App\Http\Controllers\IndicesJsonController;
 
+Route::get('/', [IndicesController::class, 'index']);
+
 Route::get('/tjsp', [IndicesController::class, 'indiceTjsp'])->name('tjsp');
 Route::get('/ortn', [IndicesController::class, 'indiceOrtn'])->name('ortn');
 Route::get('/ufir', [IndicesController::class, 'indiceUfir'])->name('ufir');
@@ -29,7 +31,3 @@ Route::get('/selic/json', [IndicesJsonController::class, 'indiceSelic'])->name('
 Route::get('/ipc/json', [IndicesJsonController::class, 'indiceIpcFipe'])->name('ipc/json');
 Route::get('/tr/json', [IndicesJsonController::class, 'indiceTr'])->name('tr/json');
 Route::get('/tjmg/json', [IndicesJsonController::class, 'indiceTjmg'])->name('tjmg/json');
-
-Route::get('/', function(){
-    return view('welcome')->with('resultados', [])->with('titulo', '');;
-});

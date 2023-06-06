@@ -50,6 +50,10 @@
         .nav-link:hover {
             color: #fff;
         }
+        .nav-link-active {
+            color: #fff;
+            background-color: #5c636a;
+        }
 
     </style>
 </head>
@@ -58,40 +62,40 @@
         <div id="sidebar">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('tjsp') }}">TJSP</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJSP') nav-link-active @endif mb-1" href="{{ route('tjsp') }}">TJSP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('ortn') }}">ORTN</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'ORTN') nav-link-active @endif mb-1" href="{{ route('ortn') }}">ORTN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('ufir') }}">UFIR</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'UFIR') nav-link-active @endif mb-1" href="{{ route('ufir') }}">UFIR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('caderneta') }}">POUPANÇA</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'CADERNETA POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">CADERNETA POUPANÇA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('igpdi') }}">IGPDI</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPDI') nav-link-active @endif mb-1" href="{{ route('igpdi') }}">IGPDI</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('igpm') }}">IGPM</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPM') nav-link-active @endif mb-1" href="{{ route('igpm') }}">IGPM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('inpc') }}">INPC</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'INPC') nav-link-active @endif mb-1" href="{{ route('inpc') }}">INPC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('ipca') }}">IPCA</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPCA') nav-link-active @endif mb-1" href="{{ route('ipca') }}">IPCA</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('selic') }}">SELIC</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'SELIC') nav-link-active @endif mb-1" href="{{ route('selic') }}">SELIC</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('ipc') }}">IPC</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FIPE') nav-link-active @endif mb-1" href="{{ route('ipc') }}">IPC FIPE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('tr') }}">TR</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TR') nav-link-active @endif mb-1" href="{{ route('tr') }}">TR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link" href="{{ route('tjmg') }}">TJMG</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJMG') nav-link-active @endif mb-1" href="{{ route('tjmg') }}">TJMG</a>
                 </li>
             </ul>
         </div>
