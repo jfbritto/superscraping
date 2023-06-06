@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Support\Facades\Http;
 
 class IndicesController extends Controller
 {
@@ -17,8 +18,8 @@ class IndicesController extends Controller
     const url_caderneta_poupanca = "https://debit.com.br/tabelas/tabela-completa.php?indice=poupanca";
     const url_igpdi = "https://debit.com.br/tabelas/tabela-completa.php?indice=igp";
     const url_igpm = "https://debit.com.br/tabelas/tabela-completa.php?indice=igpm";
-    const url_inpc = "https://debit.com.br/tabelas/tabela-completa.php?indice=inpc";
-    const url_ipca = "http://www.ecalculos.com.br/utilitarios/ipca-ibge.php";
+    const url_inpc = "https://debit.com.br/tabelas/tabela-completa.php?indice=inpc"; //https://api.bcb.gov.br/dados/serie/bcdata.sgs.188/dados?formato=json
+    const url_ipca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json";
     const url_selic = "https://debit.com.br/tabelas/tabela-completa.php?indice=selic";
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
@@ -386,73 +387,14 @@ class IndicesController extends Controller
      */
     public function indiceIpca()
     {
-        $client = new Client();
-        $response = $client->request('GET', self::url_ipca);
-        $html = $response->getBody()->getContents();
-        $crawler = new Crawler($html);
+
+        $response = Http::get(self::url_ipca);
+        $data = $response->json();
         $anoMesIndice = [];
 
-       // Encontrar todas as tabelas na página
-        $tables = $crawler->filter('table');
-
-        // Array para armazenar os dados das tabelas
-        $dataArray = [];
-
-        // Iterar sobre as tabelas
-        $tables->each(function (Crawler $table, $index) use (&$dataArray) {
-            // Array para armazenar os dados de cada tabela
-            $tableData = [];
-
-            // Encontrar todas as linhas da tabela
-            $rows = $table->filter('tr');
-
-            // Iterar sobre as linhas da tabela
-            $rows->each(function (Crawler $row, $rowIndex) use (&$tableData) {
-                // Array para armazenar os dados de cada linha
-                $rowData = [];
-
-                // Encontrar todas as células da linha
-                $cells = $row->filter('th, td');
-
-                // Iterar sobre as células da linha
-                $cells->each(function (Crawler $cell, $cellIndex) use (&$rowData) {
-                    // Extrair o texto da célula
-                    $cellText = $cell->text();
-
-                    // Adicionar o texto da célula ao array de dados da linha
-                    $rowData[] = $cellText;
-                });
-
-                // Adicionar o array de dados da linha ao array de dados da tabela
-                if (count($rowData) == 4 && strlen($rowData[1]) < 10) {
-                    $tableData[] = $rowData;
-                }
-            });
-            
-            // Adicionar o array de dados da tabela ao array principal
-            $dataArray[] = $tableData;
-        });
-
-        $dataArray = $dataArray[0];
-
-        $meses = [
-            'janeiro' => 1,
-            'fevereiro' => 2,
-            'março' => 3,
-            'abril' => 4,
-            'maio' => 5,
-            'junho' => 6,
-            'julho' => 7,
-            'agosto' => 8,
-            'setembro' => 9,
-            'outubro' => 10,
-            'novembro' => 11,
-            'dezembro' => 12
-        ];
-
-        foreach ($dataArray as $value) {
-            $data_indice = explode("/", $value[0]);
-            $anoMesIndice[$data_indice[1]][$meses[$data_indice[0]]] = $value[1];
+        foreach ($data as $value) {
+            $data_indice = explode("/", $value['data']);
+            $anoMesIndice[$data_indice[2]][intval($data_indice[1])] = str_replace('.', ',', $value['valor']);
         }
 
         foreach ($anoMesIndice as $key => $value) {
