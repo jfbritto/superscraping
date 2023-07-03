@@ -36,7 +36,7 @@ class IndicesController extends Controller
                 ->with('resultados', $resultados)
                 ->with('titulo', 'ÍNDICES MONETÁRIOS CALCULADOS');
     }
-    
+
     public static function getCrawler($url)
     {
         $client = new Client();
@@ -54,7 +54,7 @@ class IndicesController extends Controller
      * @param string $filtro
      * @return array
      */
-    private function getDataIndice($crawler, $filtro): array 
+    private function getDataIndice($crawler, $filtro): array
     {
 
         return $crawler->filter($filtro)->each(function ($node) {
@@ -73,7 +73,7 @@ class IndicesController extends Controller
             $data = explode("/", $data);
             $mes = $data[0];
             $ano = $data[1];
-            
+
             return [$ano, $mes, $indice];
         });
 
@@ -86,7 +86,7 @@ class IndicesController extends Controller
      * @param string $filtro
      * @return array
      */
-    private function getDataIndiceIpca($crawler, $filtro): array 
+    private function getDataIndiceIpca($crawler, $filtro): array
     {
         return $crawler->filter($filtro)->each(function ($node) {
             $texto = trim($node->text());
@@ -105,8 +105,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_tjsp);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -136,8 +136,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_ortn);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -149,7 +149,7 @@ class IndicesController extends Controller
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
                 }
             }
         }
@@ -166,8 +166,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_ufir);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -196,8 +196,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_caderneta_poupanca);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -238,8 +238,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_igpdi);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -290,8 +290,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_igpm);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -341,8 +341,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_inpc);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -441,8 +441,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_selic);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -493,8 +493,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_ipc_fipe);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -502,7 +502,7 @@ class IndicesController extends Controller
             }
         }
 
-        $resultados = []; 
+        $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
@@ -545,8 +545,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_tr);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
@@ -597,8 +597,8 @@ class IndicesController extends Controller
     {
         $crawler = $this::getCrawler(self::url_tjmg);
         $anoMesIndice = [];
-        
-        for ($i=1; $i <= 12; $i++) { 
+
+        for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
             $arrayIndices = self::getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
