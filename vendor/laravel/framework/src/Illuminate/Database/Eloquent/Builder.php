@@ -96,9 +96,11 @@ class Builder implements BuilderContract
         'avg',
         'count',
         'dd',
+        'ddRawSql',
         'doesntExist',
         'doesntExistOr',
         'dump',
+        'dumpRawSql',
         'exists',
         'existsOr',
         'explain',
@@ -116,6 +118,7 @@ class Builder implements BuilderContract
         'rawValue',
         'sum',
         'toSql',
+        'toRawSql',
     ];
 
     /**
@@ -1976,8 +1979,6 @@ class Builder implements BuilderContract
 
         foreach ($methods as $method) {
             if ($replace || ! static::hasGlobalMacro($method->name)) {
-                $method->setAccessible(true);
-
                 static::macro($method->name, $method->invoke($mixin));
             }
         }

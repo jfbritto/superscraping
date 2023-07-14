@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Indscraping @if (!empty($titulo)) | {{ $titulo }} @endif </title>
-    
+
     <meta name="theme-color" content="#010005">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,14 +31,14 @@
             display: flex;
             height: 100%;
         }
-        
+
         #sidebar {
             width: 180px;
             background-color: #202123; /* Cor de fundo escura */
             color: #fff !important; /* Cor do texto */
             padding: 20px;
         }
-        
+
         #content {
             flex: 1;
             padding: 20px;
@@ -109,8 +109,8 @@
         </div>
         <div id="content">
             <h2>{{ $titulo }}</h2>
-            @foreach($resultados as $item)
-                {{ $item }}<br>
+            @foreach($resultados as $key => $item)
+                <label style="color:@if($key == (count($resultados)-2)) green @elseif($key == (count($resultados)-1)) blue @else black @endif">{{ $item }}</label> <br>
             @endforeach
         </div>
     </div>

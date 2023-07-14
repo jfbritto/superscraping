@@ -84,4 +84,24 @@ final class ExceptionHandler implements ExceptionHandlerContract
     {
         return $this->appExceptionHandler->shouldReport($e);
     }
+
+    /**
+     * Register a renderable callback.
+     *
+     * @return $this
+     */
+    public function reportable(callable $reportUsing)
+    {
+        $this->appExceptionHandler->reportable($reportUsing); // @phpstan-ignore-line
+    }
+
+    /**
+     * Register a reportable callback.
+     *
+     * @return \Illuminate\Foundation\Exceptions\ReportableHandler
+     */
+    public function renderable(callable $renderUsing)
+    {
+        $this->appExceptionHandler->renderable($renderUsing); // @phpstan-ignore-line
+    }
 }

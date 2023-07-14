@@ -31,3 +31,5 @@ Route::get('/selic/json', [IndicesJsonController::class, 'indiceSelic'])->name('
 Route::get('/ipc/json', [IndicesJsonController::class, 'indiceIpcFipe'])->name('ipc/json');
 Route::get('/tr/json', [IndicesJsonController::class, 'indiceTr'])->name('tr/json');
 Route::get('/tjmg/json', [IndicesJsonController::class, 'indiceTjmg'])->name('tjmg/json');
+
+Route::get('/ajustar', [IndicesController::class, 'ajustar'])->name('ajustar');

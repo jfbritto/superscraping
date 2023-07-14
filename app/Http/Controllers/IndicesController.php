@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class IndicesController extends Controller
 {
@@ -24,6 +25,27 @@ class IndicesController extends Controller
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
     const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
+
+    public function ajustar()
+    {
+        $filePath = '/home/joaobritto/Projetos/superscraping/app/arquivos';
+
+
+        $file = fopen($filePath, 'w'); // 'w' cria um novo arquivo para escrita, substituindo qualquer arquivo existente
+
+        if ($file !== false) {
+            // O arquivo foi aberto com sucesso, agora você pode escrever as informações do log nele
+            $logData = ["[LOG]", "Informações do log"];
+            fputcsv($file, $logData);
+
+            fclose($file);
+            echo "foi em";
+        } else {
+            // Houve um erro ao abrir o arquivo
+            echo "Não foi possível abrir o arquivo para escrita.";
+        }
+
+    }
 
     public function index()
     {
@@ -123,6 +145,7 @@ class IndicesController extends Controller
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '.', str_replace('.', '', $value2));
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'TJSP');
     }
@@ -153,6 +176,7 @@ class IndicesController extends Controller
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'ORTN');
     }
@@ -179,10 +203,11 @@ class IndicesController extends Controller
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'UFIR');
     }
@@ -225,6 +250,7 @@ class IndicesController extends Controller
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'POUPANÇA');
     }
@@ -277,6 +303,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IGPDI');
     }
@@ -328,6 +355,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
+        $resultados[] = $key.';'.($key2+2).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IGPM');
     }
@@ -380,6 +408,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'INPC');
     }
@@ -428,6 +457,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPCA');
     }
@@ -480,6 +510,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'SELIC');
     }
@@ -532,6 +563,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPC FIPE');
     }
@@ -584,6 +616,7 @@ class IndicesController extends Controller
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
         $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'TR');
     }
@@ -614,6 +647,7 @@ class IndicesController extends Controller
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'TJMG');
     }
