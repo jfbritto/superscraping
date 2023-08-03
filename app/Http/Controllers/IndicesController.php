@@ -23,6 +23,7 @@ class IndicesController extends Controller
     const url_ipca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json";
     const url_selic = "https://debit.com.br/tabelas/tabela-completa.php?indice=selic";
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
+    const url_ipc_fgv = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fgv";
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
     const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
 
@@ -566,6 +567,59 @@ class IndicesController extends Controller
         $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPC FIPE');
+    }
+
+    /**
+     * Busca os índices IPC FGV
+     *
+     * @return string
+     */
+    public function indiceIpcFgv()
+    {
+        $crawler = $this::getCrawler(self::url_ipc_fgv);
+        $anoMesIndice = [];
+
+        for ($i=1; $i <= 12; $i++) {
+            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
+            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            foreach ($arrayIndices as $value) {
+                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
+            }
+        }
+
+        $resultados = [];
+        $valorCalculadoAnterior = null;
+        $valorAnterior = null;
+        foreach ($anoMesIndice as $key => $value) {
+            if ($key >= 2022) {
+                foreach ($value as $key2 => $value2) {
+
+                    $value2 = str_replace(',', '.', str_replace('.', '', $value2));
+
+                    if ($key == 2022 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.487088970242;
+
+                        if (intval($key2) == 1) {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
+                        } else {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $value[$key2-1]));
+                        }
+                    }
+
+                    $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+
+                    $valorCalculadoAnterior = $result;
+                    $valorAnterior = $value2;
+
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
+                }
+            }
+        }
+        $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
+
+        return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPC FGV');
     }
 
     /**

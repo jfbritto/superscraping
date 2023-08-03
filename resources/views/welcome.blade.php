@@ -97,6 +97,9 @@
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FIPE') nav-link-active @endif mb-1" href="{{ route('ipc') }}">IPC FIPE</a>
                 </li>
                 <li class="nav-item">
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FGV') nav-link-active @endif mb-1" href="{{ route('ipcfgv') }}">IPC FGV</a>
+                </li>
+                <li class="nav-item">
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'TR') nav-link-active @endif mb-1" href="{{ route('tr') }}">TR</a>
                 </li>
                 <li class="nav-item">
