@@ -30,7 +30,9 @@ Route::get('/inpc/json', [IndicesJsonController::class, 'indiceInpc'])->name('in
 Route::get('/ipca/json', [IndicesJsonController::class, 'indiceIpca'])->name('ipca/json');
 Route::get('/selic/json', [IndicesJsonController::class, 'indiceSelic'])->name('selic/json');
 Route::get('/ipc/json', [IndicesJsonController::class, 'indiceIpcFipe'])->name('ipc/json');
+Route::get('/ipcfgv/json', [IndicesJsonController::class, 'indiceIpcFgv'])->name('ipcfgv/json');
 Route::get('/tr/json', [IndicesJsonController::class, 'indiceTr'])->name('tr/json');
 Route::get('/tjmg/json', [IndicesJsonController::class, 'indiceTjmg'])->name('tjmg/json');
+Route::get('/indicesdisponiveis/json', [IndicesJsonController::class, 'indicesDisponiveis'])->name('indicesdisponiveis/json');
 
 Route::get('/ajustar', [IndicesController::class, 'ajustar'])->name('ajustar');

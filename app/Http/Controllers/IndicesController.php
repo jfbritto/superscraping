@@ -27,6 +27,11 @@ class IndicesController extends Controller
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
     const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
 
+    public function __construct()
+    {
+        session_start();
+    }
+
     public function ajustar()
     {
         $filePath = '/home/joaobritto/Projetos/superscraping/app/arquivos';
@@ -126,6 +131,10 @@ class IndicesController extends Controller
      */
     public function indiceTjsp()
     {
+        if (isset($_SESSION['tjsp'])) {
+            return view('welcome')->with('resultados', $_SESSION['tjsp'])->with('titulo', 'TJSP');
+        }
+
         $crawler = $this::getCrawler(self::url_tjsp);
         $anoMesIndice = [];
 
@@ -138,7 +147,6 @@ class IndicesController extends Controller
         }
 
         $resultados = [];
-        $resultados = ['Esse índice em nosso sistema leva o nome: tabelaAtualizacaoMonetaria.csv', ''];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2022) {
                 foreach ($value as $key2 => $value2) {
@@ -158,6 +166,10 @@ class IndicesController extends Controller
      */
     public function indiceOrtn()
     {
+        if (isset($_SESSION['ortn'])) {
+            return view('welcome')->with('resultados', $_SESSION['ortn'])->with('titulo', 'ORTN');
+        }
+
         $crawler = $this::getCrawler(self::url_ortn);
         $anoMesIndice = [];
 
@@ -189,6 +201,10 @@ class IndicesController extends Controller
      */
     public function indiceUfir()
     {
+        if (isset($_SESSION['ufir'])) {
+            return view('welcome')->with('resultados', $_SESSION['ufir'])->with('titulo', 'UFIR');
+        }
+
         $crawler = $this::getCrawler(self::url_ufir);
         $anoMesIndice = [];
 
@@ -220,6 +236,10 @@ class IndicesController extends Controller
      */
     public function indiceCadernetaPoupanca()
     {
+        if (isset($_SESSION['caderneta'])) {
+            return view('welcome')->with('resultados', $_SESSION['caderneta'])->with('titulo', 'POUPANÇA');
+        }
+
         $crawler = $this::getCrawler(self::url_caderneta_poupanca);
         $anoMesIndice = [];
 
@@ -263,6 +283,10 @@ class IndicesController extends Controller
      */
     public function indiceIgpdi()
     {
+        if (isset($_SESSION['igpdi'])) {
+            return view('welcome')->with('resultados', $_SESSION['igpdi'])->with('titulo', 'IGPDI');
+        }
+
         $crawler = $this::getCrawler(self::url_igpdi);
         $anoMesIndice = [];
 
@@ -316,6 +340,10 @@ class IndicesController extends Controller
      */
     public function indiceIgpm()
     {
+        if (isset($_SESSION['igpm'])) {
+            return view('welcome')->with('resultados', $_SESSION['igpm'])->with('titulo', 'IGPM');
+        }
+
         $crawler = $this::getCrawler(self::url_igpm);
         $anoMesIndice = [];
 
@@ -368,6 +396,10 @@ class IndicesController extends Controller
      */
     public function indiceInpc()
     {
+        if (isset($_SESSION['inpc'])) {
+            return view('welcome')->with('resultados', $_SESSION['inpc'])->with('titulo', 'INPC');
+        }
+
         $crawler = $this::getCrawler(self::url_inpc);
         $anoMesIndice = [];
 
@@ -421,6 +453,9 @@ class IndicesController extends Controller
      */
     public function indiceIpca()
     {
+        if (isset($_SESSION['ipca'])) {
+            return view('welcome')->with('resultados', $_SESSION['ipca'])->with('titulo', 'IPCA');
+        }
 
         $response = Http::get(self::url_ipca);
         $data = $response->json();
@@ -470,6 +505,10 @@ class IndicesController extends Controller
      */
     public function indiceSelic()
     {
+        if (isset($_SESSION['selic'])) {
+            return view('welcome')->with('resultados', $_SESSION['selic'])->with('titulo', 'SELIC');
+        }
+
         $crawler = $this::getCrawler(self::url_selic);
         $anoMesIndice = [];
 
@@ -523,6 +562,10 @@ class IndicesController extends Controller
      */
     public function indiceIpcFipe()
     {
+        if (isset($_SESSION['ipc'])) {
+            return view('welcome')->with('resultados', $_SESSION['ipc'])->with('titulo', 'IPC FIPE');
+        }
+
         $crawler = $this::getCrawler(self::url_ipc_fipe);
         $anoMesIndice = [];
 
@@ -576,6 +619,10 @@ class IndicesController extends Controller
      */
     public function indiceIpcFgv()
     {
+        if (isset($_SESSION['ipcfgv'])) {
+            return view('welcome')->with('resultados', $_SESSION['ipcfgv'])->with('titulo', 'IPC FGV');
+        }
+
         $crawler = $this::getCrawler(self::url_ipc_fgv);
         $anoMesIndice = [];
 
@@ -629,6 +676,10 @@ class IndicesController extends Controller
      */
     public function indiceTr()
     {
+        if (isset($_SESSION['tr'])) {
+            return view('welcome')->with('resultados', $_SESSION['tr'])->with('titulo', 'TR');
+        }
+
         $crawler = $this::getCrawler(self::url_tr);
         $anoMesIndice = [];
 
@@ -682,6 +733,10 @@ class IndicesController extends Controller
      */
     public function indiceTjmg()
     {
+        if (isset($_SESSION['tjmg'])) {
+            return view('welcome')->with('resultados', $_SESSION['tjmg'])->with('titulo', 'TJMG');
+        }
+
         $crawler = $this::getCrawler(self::url_tjmg);
         $anoMesIndice = [];
 
@@ -693,7 +748,6 @@ class IndicesController extends Controller
             }
         }
 
-        $resultados = ['Os resultados desse índice devem ser replicados para os demais: TJDF, TJES, TJRO e ENCOGE.', ''];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2000) {
                 foreach ($value as $key2 => $value2) {

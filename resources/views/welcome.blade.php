@@ -21,6 +21,7 @@
 
     <link rel="shortcut icon" href="https://cdn.icon-icons.com/icons2/620/PNG/512/ascendant-bars-graphic_icon-icons.com_56869.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <style>
 
         html, body {
@@ -55,6 +56,13 @@
             background-color: #5c636a;
         }
 
+        .check-true {
+            color: #198754 !important
+        }
+        .check-false {
+            color: #dc3545 !important
+        }
+
     </style>
 </head>
 <body>
@@ -67,43 +75,95 @@
             </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJSP') nav-link-active @endif mb-1" href="{{ route('tjsp') }}">TJSP</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJSP') nav-link-active @endif mb-1" href="{{ route('tjsp') }}">
+                        TJSP
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-tjsp-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-tjsp-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'ORTN') nav-link-active @endif mb-1" href="{{ route('ortn') }}">ORTN</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'ORTN') nav-link-active @endif mb-1" href="{{ route('ortn') }}">
+                        ORTN
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ortn-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ortn-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'UFIR') nav-link-active @endif mb-1" href="{{ route('ufir') }}">UFIR</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'UFIR') nav-link-active @endif mb-1" href="{{ route('ufir') }}">
+                        UFIR
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ufir-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ufir-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">POUPANÇA</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">
+                        POUPANÇA
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-caderneta-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-caderneta-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPDI') nav-link-active @endif mb-1" href="{{ route('igpdi') }}">IGPDI</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPDI') nav-link-active @endif mb-1" href="{{ route('igpdi') }}">
+                        IGPDI
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-igpdi-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-igpdi-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPM') nav-link-active @endif mb-1" href="{{ route('igpm') }}">IGPM</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IGPM') nav-link-active @endif mb-1" href="{{ route('igpm') }}">
+                        IGPM
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-igpm-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-igpm-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'INPC') nav-link-active @endif mb-1" href="{{ route('inpc') }}">INPC</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'INPC') nav-link-active @endif mb-1" href="{{ route('inpc') }}">
+                        INPC
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-inpc-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-inpc-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPCA') nav-link-active @endif mb-1" href="{{ route('ipca') }}">IPCA</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPCA') nav-link-active @endif mb-1" href="{{ route('ipca') }}">
+                        IPCA
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipca-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ipca-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'SELIC') nav-link-active @endif mb-1" href="{{ route('selic') }}">SELIC</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'SELIC') nav-link-active @endif mb-1" href="{{ route('selic') }}">
+                        SELIC
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-selic-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-selic-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FIPE') nav-link-active @endif mb-1" href="{{ route('ipc') }}">IPC FIPE</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FIPE') nav-link-active @endif mb-1" href="{{ route('ipc') }}">
+                        IPC FIPE
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipc-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ipc-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FGV') nav-link-active @endif mb-1" href="{{ route('ipcfgv') }}">IPC FGV</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FGV') nav-link-active @endif mb-1" href="{{ route('ipcfgv') }}">
+                        IPC FGV
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipcfgv-true" style="display: none !important"></i>
+                        <i class="fa ftimes-check-cirfalse check-true" aria-hidden="true" id="icon-ipcfgv-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TR') nav-link-active @endif mb-1" href="{{ route('tr') }}">TR</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TR') nav-link-active @endif mb-1" href="{{ route('tr') }}">
+                        TR
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-tr-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-tr-false" style="display: none !important"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJMG') nav-link-active @endif mb-1" href="{{ route('tjmg') }}">TJMG</a>
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'TJMG') nav-link-active @endif mb-1" href="{{ route('tjmg') }}">
+                        TJMG
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-tjmg-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-tjmg-false" style="display: none !important"></i>
+                    </a>
                 </li>
             </ul>
             <div class="text-center" style="position: absolute; bottom:15px; margin-left: 35px">
@@ -118,7 +178,8 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="/js/welcome.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
