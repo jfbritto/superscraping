@@ -165,6 +165,11 @@
                         <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-tjmg-false" style="display: none !important"></i>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="btn btn-success nav-link mb-1" target="_blank" href="{{ route('ajustar/json') }}">
+                        Atualizar tabelas cloud
+                    </a>
+                </li>
             </ul>
             <div class="text-center" style="position: absolute; bottom:15px; margin-left: 35px">
                 <a href="https://github.com/jfbritto/superscraping" target="_blank"><img src="https://github.com/jfbritto.png" class="img rounded-circle" width="70"></a>

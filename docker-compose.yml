@@ -13,6 +13,8 @@ services:
         volumes:
             - ./:/var/www
             - /home/cloud/public/atualizacaomonetaria:/var/www/storage/app/atualizacaomonetaria
+            - /home/cloud/var/tabelas:/var/www/storage/app/tabelas
+            - /home/joaobritto/Documentos/teste/tabelas:/var/www/storage/app/teste
         networks:
             - projeto_network
 
@@ -40,7 +42,7 @@ services:
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports:
-            - 3388:3306
+            - 3389:3306
         networks:
             - projeto_network
 

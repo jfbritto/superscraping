@@ -32,27 +32,6 @@ class IndicesController extends Controller
         session_start();
     }
 
-    public function ajustar()
-    {
-        $filePath = '/home/joaobritto/Projetos/superscraping/app/arquivos';
-
-
-        $file = fopen($filePath, 'w'); // 'w' cria um novo arquivo para escrita, substituindo qualquer arquivo existente
-
-        if ($file !== false) {
-            // O arquivo foi aberto com sucesso, agora você pode escrever as informações do log nele
-            $logData = ["[LOG]", "Informações do log"];
-            fputcsv($file, $logData);
-
-            fclose($file);
-            echo "foi em";
-        } else {
-            // Houve um erro ao abrir o arquivo
-            echo "Não foi possível abrir o arquivo para escrita.";
-        }
-
-    }
-
     public function index()
     {
         $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv que ficam nos diretórios:';

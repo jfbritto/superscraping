@@ -1,5 +1,6 @@
 /.docker/*
 .docker/*
+.docker/mysql/dbdata/
 /.phpunit.cache
 /node_modules
 /public/build

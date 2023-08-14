@@ -35,4 +35,4 @@ Route::get('/tr/json', [IndicesJsonController::class, 'indiceTr'])->name('tr/jso
 Route::get('/tjmg/json', [IndicesJsonController::class, 'indiceTjmg'])->name('tjmg/json');
 Route::get('/indicesdisponiveis/json', [IndicesJsonController::class, 'indicesDisponiveis'])->name('indicesdisponiveis/json');
 
-Route::get('/ajustar', [IndicesController::class, 'ajustar'])->name('ajustar');
+Route::get('/ajustar/json', [IndicesJsonController::class, 'ajustar'])->name('ajustar/json');

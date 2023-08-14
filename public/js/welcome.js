@@ -2,10 +2,15 @@ $(document).ready(function () {
 
     indicesDisponiveis();
 
+    setInterval(() => {
+        indicesDisponiveis();
+    }, 600000); // busca a cada 5 minutos
+
     function indicesDisponiveis()
     {
+        console.log('Função chamada...');
         var dataAtual = new Date().getTime(); // Obtém o timestamp atual em milissegundos
-        var tempoValidade = 5 * 60 * 1000; // Converte minutos para milissegundos
+        var tempoValidade = 10 * 60 * 1000; // Converte minutos para milissegundos
 
         // Recuperando dado do localStorage
         var indicesDisponiveis = JSON.parse(localStorage.getItem("indicesDisponiveis"));
@@ -14,11 +19,13 @@ $(document).ready(function () {
             let diferenca = dataAtual - indicesDisponiveis.data
             if (indicesDisponiveis !== null) {
                 if (diferenca < tempoValidade) {
+                    console.log('Tinha cache...');
                     habilitandoIcones(indicesDisponiveis.dado)
                     return false
                 }
             }
         }
+        console.log('Fazendo scraping...');
 
         $.ajax({
             url: '/indicesdisponiveis/json',
@@ -45,6 +52,8 @@ $(document).ready(function () {
 
     function habilitandoIcones(response)
     {
+        console.log('Escrevendo na tela...');
+
         if (response.tjsp) $("#icon-tjsp-true").show(); else $("#icon-tjsp-false").show();
         if (response.ortn) $("#icon-ortn-true").show(); else $("#icon-ortn-false").show();
         if (response.ufir) $("#icon-ufir-true").show(); else $("#icon-ufir-false").show();
