@@ -25,7 +25,9 @@ class IndicesJsonController extends Controller
     const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
     const url_ipc_fgv = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fgv";
     const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
+
     const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
+    const url_tjmg_alternativo = "https://www.ecalculos.com.br/utilitarios/justica-estadual.php";
 
     public function __construct()
     {
@@ -131,18 +133,6 @@ class IndicesJsonController extends Controller
 
         }
 
-    }
-
-    public function index()
-    {
-        $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv que ficam nos diretórios:';
-        $resultados[] = '';
-        $resultados[] = '/home/cloud/var/tabelas/';
-        $resultados[] = '/home/cloud/public/atualizacaomonetaria/';
-
-        return view('welcome')
-                ->with('resultados', $resultados)
-                ->with('titulo', 'ÍNDICES MONETÁRIOS CALCULADOS');
     }
 
     public static function getCrawler($url)
@@ -832,6 +822,19 @@ class IndicesJsonController extends Controller
             }
         }
 
+        $return = false;
+        foreach ($anoMesIndice as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                if ($key.$key2 == date('Y').intval(date('m'))) {
+                    $return = true;
+                }
+            }
+        }
+
+        if (!$return) {
+            $anoMesIndice = self::indiceTjmgRedundancia();
+        }
+
         $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2000) {
@@ -849,6 +852,79 @@ class IndicesJsonController extends Controller
 
         header('Content-Type: application/json');
         return json_encode($resultados);
+    }
+
+    /**
+     * Busca os índices TJMG
+     *
+     * @return string
+     */
+    public function indiceTjmgRedundancia()
+    {
+        $client = new Client();
+        $response = $client->request('GET', self::url_tjmg_alternativo);
+        $html = $response->getBody()->getContents();
+        $crawler = new Crawler($html);
+        $anoMesIndice = [];
+
+        $mes_numero = [
+            'janeiro' => '01',
+            'fevereiro' => '02',
+            'março' => '03',
+            'abril' => '04',
+            'maio' => '05',
+            'junho' => '06',
+            'julho' => '07',
+            'agosto' => '08',
+            'setembro' => '09',
+            'outubro' => '10',
+            'novembro' => '11',
+            'dezembro' => '12'
+        ];
+
+        $arrayIndices = $crawler->filter('td')->each(function (Crawler $cell, $i) {
+            $txt = $cell->text();
+            if (strlen($txt) > 15) {
+                return false;
+            }
+            return $txt;
+        });
+
+        $filteredArray = array_filter($arrayIndices, function ($value) {
+            return $value !== false;
+        });
+
+        $arrayIndices = [];
+        $anoMesIndice = [];
+        $buscaQual = true;
+        $idKey = 0;
+        foreach ($filteredArray as $key => $filtered) {
+            if ($buscaQual) {
+                $data = explode("/", $filtered);
+
+                $arrayIndices[$idKey][] = $data[1];
+                $arrayIndices[$idKey][] = $mes_numero[$data[0]];
+            } else {
+                $arrayIndices[$idKey][] = $filtered;
+                $idKey++;
+            }
+
+            $buscaQual = !$buscaQual;
+        }
+        foreach ($arrayIndices as $value) {
+            $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
+        }
+
+        // foreach ($anoMesIndice as $key => $value) {
+        //     if (intval($key) >= 2000) {
+        //         foreach ($value as $key2 => $value2) {
+        //             $resultados[] = $key.';'.$key2.';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
+        //         }
+        //     }
+        // }
+        // $resultados[] = $key.';'.($key2+1).';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
+        return $anoMesIndice;
+        // return view('welcome')->with('resultados', $resultados)->with('titulo', 'TJMG');
     }
 
     public function indicesDisponiveis()

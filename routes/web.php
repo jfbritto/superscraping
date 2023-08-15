@@ -19,6 +19,7 @@ Route::get('/ipc', [IndicesController::class, 'indiceIpcFipe'])->name('ipc');
 Route::get('/ipcfgv', [IndicesController::class, 'indiceIpcFgv'])->name('ipcfgv');
 Route::get('/tr', [IndicesController::class, 'indiceTr'])->name('tr');
 Route::get('/tjmg', [IndicesController::class, 'indiceTjmg'])->name('tjmg');
+Route::get('/teste', [IndicesController::class, 'indiceTjmgTeste'])->name('teste');
 
 Route::get('/tjsp/json', [IndicesJsonController::class, 'indiceTjsp'])->name('tjsp/json');
 Route::get('/ortn/json', [IndicesJsonController::class, 'indiceOrtn'])->name('ortn/json');
