@@ -36,10 +36,10 @@ class IndicesController extends Controller
 
     public function index()
     {
-        $resultados[] = 'Basta copiar os resultados e colar em seus respectivos arquivos .csv que ficam nos diretórios:';
+        $resultados[] = 'Basta rodar as permissões abaixo e clicar no botão "Atualizar tabelas cloud"';
         $resultados[] = '';
-        $resultados[] = '/home/cloud/var/tabelas/';
-        $resultados[] = '/home/cloud/public/atualizacaomonetaria/';
+        $resultados[] = 'sudo chmod -R 777 public/atualizacaomonetaria/*';
+        $resultados[] = 'sudo chmod -R 777 var/tabelas/*';
 
         return view('welcome')
                 ->with('resultados', $resultados)

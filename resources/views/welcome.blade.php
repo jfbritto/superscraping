@@ -148,7 +148,7 @@
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'IPC FGV') nav-link-active @endif mb-1" href="{{ route('ipcfgv') }}">
                         IPC FGV
                         <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipcfgv-true" style="display: none !important"></i>
-                        <i class="fa ftimes-check-cirfalse check-true" aria-hidden="true" id="icon-ipcfgv-false" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ipcfgv-false" style="display: none !important"></i>
                     </a>
                 </li>
                 <li class="nav-item">
