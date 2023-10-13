@@ -3,38 +3,69 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
-class IndicesJsonController extends Controller
+class IndicesJsonController extends AbstractController
 {
+
     /**
-     * Define as urls a qual iremos fazer o scraping
+     * Trata o texto do endpoint, retornando no padrão desejado
+     *
+     * @param object $crawler
+     * @param string $filtro
+     * @return array
      */
-    const url_tjsp = "https://debit.com.br/tabelas/tabela-completa.php?indice=aasp";
-    const url_ortn = "https://debit.com.br/tabelas/tabela-completa.php?indice=btn";
-    const url_ufir = "https://debit.com.br/tabelas/tabela-completa.php?indice=ufir";
-    const url_caderneta_poupanca = "https://debit.com.br/tabelas/tabela-completa.php?indice=poupanca";
-    const url_igpdi = "https://debit.com.br/tabelas/tabela-completa.php?indice=igp";
-    const url_igpm = "https://debit.com.br/tabelas/tabela-completa.php?indice=igpm";
-    const url_inpc = "https://debit.com.br/tabelas/tabela-completa.php?indice=inpc"; //https://api.bcb.gov.br/dados/serie/bcdata.sgs.188/dados?formato=json
-    const url_ipca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json";
-    const url_selic = "https://debit.com.br/tabelas/tabela-completa.php?indice=selic";
-    const url_ipc_fipe = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe";
-    const url_ipc_fgv = "https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fgv";
-    const url_tr = "https://debit.com.br/tabelas/tabela-completa.php?indice=tr";
-
-    const url_tjmg = "https://debit.com.br/tabelas/tabela-completa.php?indice=tjmg";
-    const url_tjmg_alternativo = "https://www.ecalculos.com.br/utilitarios/justica-estadual.php";
-
-    public function __construct()
+    private function getDataIndice($crawler, $filtro): array
     {
-        $timeout = 300; // 5 minutos
-        session_set_cookie_params($timeout);
-        ini_set('session.gc_maxlifetime', $timeout);
-        session_start();
+
+        return $crawler->filter($filtro)->each(function ($node) {
+            $texto = trim($node->text());
+
+            // Obtém a primeira parte da string contendo a data
+            $data = substr($texto, 0, 7); // 8 é o comprimento de "mes/ano"
+
+            // Obtém a segunda parte da string contendo o indice
+            $indice = str_replace($data, "", $texto);
+
+            // separa ano do mês
+            $data = explode("/", $data);
+            $mes = $data[0];
+            $ano = $data[1];
+
+            return [$ano, $mes, $indice];
+        });
+
+    }
+
+    /**
+     * Trata o texto do endpoint, retornando no padrão desejado
+     *
+     * @param object $crawler
+     * @param string $filtro
+     * @return array
+     */
+    private function getDataIndiceUfir($crawler, $filtro): array
+    {
+
+        return $crawler->filter($filtro)->each(function ($node) {
+            $texto = trim($node->text());
+
+            // Obtém a primeira parte da string contendo a data
+            $data = substr($texto, 0, 10); // 8 é o comprimento de "mes/ano"
+
+            // Obtém a segunda parte da string contendo o indice
+            $indice = str_replace($data, "", $texto);
+
+            // separa ano do mês
+            $data = explode("/", $data);
+            $dia = $data[0];
+            $mes = $data[1];
+            $ano = $data[2];
+
+            return [$ano, $mes, $indice];
+        });
+
     }
 
     public function ajustar()
@@ -54,11 +85,11 @@ class IndicesJsonController extends Controller
             ['indice' => 'IPCFGV', 'valor' => '2022;1;0.489865', 'funcao' => 'indiceIpcFgv'],
             ['indice' => 'TR', 'valor' => '2022;1;0.765281', 'funcao' => 'indiceTr'],
 
-            ['indice' => 'TJMG', 'valor' => '2000;1;0.230677', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJDF', 'valor' => '2000;1;0.230677', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJES', 'valor' => '2000;1;0.230677', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJRO', 'valor' => '2000;1;0.230677', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'ENCOGE', 'valor' => '2000;1;0.230677', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJMG', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJDF', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJES', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJRO', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'ENCOGE', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
 
             // ['indice' => 'TJRJ', 'valor' => '2022;1;412.764786', 'funcao' => 'indiceInpc'],
         ];
@@ -135,47 +166,6 @@ class IndicesJsonController extends Controller
 
     }
 
-    public static function getCrawler($url)
-    {
-        $client = new Client();
-        $response = $client->request('GET', $url);
-        $html = $response->getBody()->getContents();
-        $crawler = new Crawler($html);
-
-        return $crawler;
-    }
-
-    /**
-     * Trata o texto do endpoint, retornando no padrão desejado
-     *
-     * @param object $crawler
-     * @param string $filtro
-     * @return array
-     */
-    private function getDataIndice($crawler, $filtro): array
-    {
-
-        return $crawler->filter($filtro)->each(function ($node) {
-            $texto = trim($node->text());
-
-            // separando a data do indice
-            $data_indice = explode(" ", $texto);
-
-            // pegando data
-            $data = $data_indice[0];
-
-            // pegando indice
-            $indice = $data_indice[1];
-
-            // separa ano do mês
-            $data = explode("/", $data);
-            $mes = $data[0];
-            $ano = $data[1];
-
-            return [$ano, $mes, $indice];
-        });
-
-    }
 
     /**
      * Busca os índices TJSP
@@ -184,7 +174,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceTjsp()
     {
-        $crawler = $this::getCrawler(self::url_tjsp);
+        $crawler = $this::getCrawler(parent::url_tjsp);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -221,7 +211,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceOrtn()
     {
-        $crawler = $this::getCrawler(self::url_ortn);
+        $crawler = $this::getCrawler(parent::url_ortn);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -258,12 +248,12 @@ class IndicesJsonController extends Controller
      */
     public function indiceUfir()
     {
-        $crawler = $this::getCrawler(self::url_ufir);
+        $crawler = $this::getCrawler(parent::url_ufir);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = self::getDataIndiceUfir($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -295,7 +285,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceCadernetaPoupanca()
     {
-        $crawler = $this::getCrawler(self::url_caderneta_poupanca);
+        $crawler = $this::getCrawler(parent::url_caderneta_poupanca);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -344,7 +334,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceIgpdi()
     {
-        $crawler = $this::getCrawler(self::url_igpdi);
+        $crawler = $this::getCrawler(parent::url_igpdi);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -403,7 +393,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceIgpm()
     {
-        $crawler = $this::getCrawler(self::url_igpm);
+        $crawler = $this::getCrawler(parent::url_igpm);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -461,7 +451,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceInpc()
     {
-        $crawler = $this::getCrawler(self::url_inpc);
+        $crawler = $this::getCrawler(parent::url_inpc);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -521,7 +511,7 @@ class IndicesJsonController extends Controller
     public function indiceIpca()
     {
 
-        $response = Http::get(self::url_ipca);
+        $response = Http::get(parent::url_ipca);
         $data = $response->json();
         $anoMesIndice = [];
 
@@ -575,7 +565,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceSelic()
     {
-        $crawler = $this::getCrawler(self::url_selic);
+        $crawler = $this::getCrawler(parent::url_selic);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -634,7 +624,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceIpcFipe()
     {
-        $crawler = $this::getCrawler(self::url_ipc_fipe);
+        $crawler = $this::getCrawler(parent::url_ipc_fipe);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -693,7 +683,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceIpcFgv()
     {
-        $crawler = $this::getCrawler(self::url_ipc_fgv);
+        $crawler = $this::getCrawler(parent::url_ipc_fgv);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -752,7 +742,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceTr()
     {
-        $crawler = $this::getCrawler(self::url_tr);
+        $crawler = $this::getCrawler(parent::url_tr);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -811,7 +801,7 @@ class IndicesJsonController extends Controller
      */
     public function indiceTjmg()
     {
-        $crawler = $this::getCrawler(self::url_tjmg);
+        $crawler = $this::getCrawler(parent::url_tjmg);
         $anoMesIndice = [];
 
         for ($i=1; $i <= 12; $i++) {
@@ -862,7 +852,7 @@ class IndicesJsonController extends Controller
     public function indiceTjmgRedundancia()
     {
         $client = new Client();
-        $response = $client->request('GET', self::url_tjmg_alternativo);
+        $response = $client->request('GET', parent::url_tjmg_alternativo);
         $html = $response->getBody()->getContents();
         $crawler = new Crawler($html);
         $anoMesIndice = [];
