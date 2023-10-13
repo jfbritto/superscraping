@@ -68,11 +68,6 @@ class IndicesController extends AbstractController
 
     }
 
-    public function __construct()
-    {
-        session_start();
-    }
-
     public function index()
     {
         $resultados[] = 'Basta rodar as permissões abaixo e clicar no botão "Atualizar tabelas cloud"';

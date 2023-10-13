@@ -68,105 +68,6 @@ class IndicesJsonController extends AbstractController
 
     }
 
-    public function ajustar()
-    {
-
-        $iteracoes = [
-            ['indice' => 'tabelaAtualizacaoMonetaria', 'valor' => '2022;1;84.807227', 'funcao' => 'indiceTjsp'],
-            ['indice' => 'ORTNOTN', 'valor' => '2022;1;1.719100', 'funcao' => 'indiceOrtn'],
-            ['indice' => 'UFIR', 'valor' => '2022;1;4.091500', 'funcao' => 'indiceUfir'],
-            ['indice' => 'CADERNETAPOUPANCA', 'valor' => '2022;1;37.475525', 'funcao' => 'indiceCadernetaPoupanca'],
-            ['indice' => 'IGPDI', 'valor' => '2022;1;15.814744', 'funcao' => 'indiceIgpdi'],
-            ['indice' => 'IGPM', 'valor' => '2022;1;11184.810389', 'funcao' => 'indiceIgpm'],
-            ['indice' => 'INPC', 'valor' => '2022;1;412.764786', 'funcao' => 'indiceInpc'],
-            ['indice' => 'IPCA', 'valor' => '2022;1;1.479689', 'funcao' => 'indiceIpca'],
-            ['indice' => 'SELIC', 'valor' => '2022;1;3.753379', 'funcao' => 'indiceSelic'],
-            ['indice' => 'IPC', 'valor' => '2022;1;0.351271', 'funcao' => 'indiceIpcFipe'],
-            ['indice' => 'IPCFGV', 'valor' => '2022;1;0.489865', 'funcao' => 'indiceIpcFgv'],
-            ['indice' => 'TR', 'valor' => '2022;1;0.765281', 'funcao' => 'indiceTr'],
-
-            ['indice' => 'TJMG', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJDF', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJES', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJRO', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'ENCOGE', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-
-            // ['indice' => 'TJRJ', 'valor' => '2022;1;412.764786', 'funcao' => 'indiceInpc'],
-        ];
-
-        foreach ($iteracoes as $key => $iteracao) {
-
-            $filename = "/var/www/storage/app/atualizacaomonetaria/{$iteracao['indice']}.csv";
-            $filenameDuplicado = "/var/www/storage/app/tabelas/{$iteracao['indice']}.csv";
-
-            // Lê o arquivo CSV existente
-            $file = fopen($filename, 'r');
-            $newData = json_decode(self::{$iteracao['funcao']}());
-
-            if ($file) {
-                $data = []; // Array para armazenar os dados lidos do CSV
-
-                while (($row = fgetcsv($file)) !== false) {
-                    if ($row[0] == $iteracao['valor']) {
-                        break;
-                    }
-
-                    $data[] = $row; // Armazena os dados lidos no array
-                }
-
-                fclose($file);
-            } else {
-                echo "Não foi possível abrir o arquivo.";
-            }
-
-            $newData_array = [];
-            foreach ($newData as $key => $value) {
-                $newData_array[] = ["$value[0];$value[1];$value[2]"];
-            }
-            $novo_mes = $value[1]+1;
-            $newData_array[] = ["$value[0];$novo_mes;$value[2]"];
-
-            // Abre o arquivo para escrita
-            $file = fopen($filename, 'w');
-            $fileDuplicado = fopen($filenameDuplicado, 'w');
-
-            if ($file) {
-                // Escreve os dados antigos de volta no arquivo
-                foreach ($data as $row) {
-                    fputcsv($file, $row);
-                }
-
-                // Adiciona os novos dados ao arquivo
-                foreach ($newData_array as $row) {
-                    fputcsv($file, $row);
-                }
-
-                fclose($file);
-            } else {
-                echo "Não foi possível abrir o arquivo para escrita.";
-            }
-
-            if ($fileDuplicado) {
-                // Escreve os dados antigos de volta no arquivo
-                foreach ($data as $row) {
-                    fputcsv($fileDuplicado, $row);
-                }
-
-                // Adiciona os novos dados ao arquivo
-                foreach ($newData_array as $row) {
-                    fputcsv($fileDuplicado, $row);
-                }
-
-                fclose($fileDuplicado);
-            } else {
-                echo "Não foi possível abrir o arquivo para escrita.";
-            }
-
-        }
-
-    }
-
-
     /**
      * Busca os índices TJSP
      *
@@ -821,8 +722,10 @@ class IndicesJsonController extends AbstractController
             }
         }
 
-        if (!$return) {
-            $anoMesIndice = self::indiceTjmgRedundancia();
+        if (env('APP_LOCAL', false)) {
+            if (!$return) {
+                $anoMesIndice = self::indiceTjmgRedundancia();
+            }
         }
 
         $resultados = [];
