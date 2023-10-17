@@ -5,67 +5,16 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Support\Facades\Http;
+use App\Services\IndicesService;
 
 class IndicesController extends AbstractController
 {
 
-    /**
-     * Trata o texto do endpoint, retornando no padrão desejado
-     *
-     * @param object $crawler
-     * @param string $filtro
-     * @return array
-     */
-    private function getDataIndice($crawler, $filtro): array
+    private $indicesService;
+
+    public function __construct(IndicesService $indicesService)
     {
-
-        return $crawler->filter($filtro)->each(function ($node) {
-            $texto = trim($node->text());
-
-            // Obtém a primeira parte da string contendo a data
-            $data = substr($texto, 0, 7); // 8 é o comprimento de "mes/ano"
-
-            // Obtém a segunda parte da string contendo o indice
-            $indice = str_replace($data, "", $texto);
-
-            // separa ano do mês
-            $data = explode("/", $data);
-            $mes = $data[0];
-            $ano = $data[1];
-
-            return [$ano, $mes, $indice];
-        });
-
-    }
-
-    /**
-     * Trata o texto do endpoint, retornando no padrão desejado
-     *
-     * @param object $crawler
-     * @param string $filtro
-     * @return array
-     */
-    private function getDataIndiceUfir($crawler, $filtro): array
-    {
-
-        return $crawler->filter($filtro)->each(function ($node) {
-            $texto = trim($node->text());
-
-            // Obtém a primeira parte da string contendo a data
-            $data = substr($texto, 0, 10); // 8 é o comprimento de "mes/ano"
-
-            // Obtém a segunda parte da string contendo o indice
-            $indice = str_replace($data, "", $texto);
-
-            // separa ano do mês
-            $data = explode("/", $data);
-            $dia = $data[0];
-            $mes = $data[1];
-            $ano = $data[2];
-
-            return [$ano, $mes, $indice];
-        });
-
+        $this->indicesService = $indicesService;
     }
 
     public function index()
@@ -96,7 +45,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -131,7 +80,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -166,7 +115,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndiceUfir($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndiceUfir($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -201,7 +150,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -248,7 +197,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -305,7 +254,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -361,7 +310,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -470,7 +419,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -527,7 +476,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -584,7 +533,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -641,7 +590,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -698,7 +647,7 @@ class IndicesController extends AbstractController
 
         for ($i=1; $i <= 12; $i++) {
             $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = self::getDataIndice($crawler, $filtro);
+            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
             foreach ($arrayIndices as $value) {
                 $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
             }
@@ -714,7 +663,7 @@ class IndicesController extends AbstractController
         }
 
         if (!$return) {
-            $anoMesIndice = parent::indiceTjmgRedundancia();
+            $anoMesIndice = self::indiceTjmgRedundancia();
         }
 
         foreach ($anoMesIndice as $key => $value) {
@@ -790,15 +739,6 @@ class IndicesController extends AbstractController
             $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
         }
 
-        // foreach ($anoMesIndice as $key => $value) {
-        //     if (intval($key) >= 2000) {
-        //         foreach ($value as $key2 => $value2) {
-        //             $resultados[] = $key.';'.$key2.';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
-        //         }
-        //     }
-        // }
-        // $resultados[] = $key.';'.($key2+1).';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
         return $anoMesIndice;
-        // return view('welcome')->with('resultados', $resultados)->with('titulo', 'TJMG');
     }
 }
