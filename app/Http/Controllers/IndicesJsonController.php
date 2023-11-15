@@ -806,21 +806,6 @@ class IndicesJsonController extends AbstractController
         $crawler = new Crawler($html);
         $anoMesIndice = [];
 
-        $mes_numero = [
-            'janeiro' => '01',
-            'fevereiro' => '02',
-            'março' => '03',
-            'abril' => '04',
-            'maio' => '05',
-            'junho' => '06',
-            'julho' => '07',
-            'agosto' => '08',
-            'setembro' => '09',
-            'outubro' => '10',
-            'novembro' => '11',
-            'dezembro' => '12'
-        ];
-
         $arrayIndices = $crawler->filter('td')->each(function (Crawler $cell, $i) {
             $txt = $cell->text();
             if (strlen($txt) > 15) {
@@ -830,7 +815,7 @@ class IndicesJsonController extends AbstractController
         });
 
         $filteredArray = array_filter($arrayIndices, function ($value) {
-            return $value !== false;
+            return $value !== false && $value !== '';
         });
 
         $arrayIndices = [];
@@ -842,7 +827,7 @@ class IndicesJsonController extends AbstractController
                 $data = explode("/", $filtered);
 
                 $arrayIndices[$idKey][] = $data[1];
-                $arrayIndices[$idKey][] = $mes_numero[$data[0]];
+                $arrayIndices[$idKey][] = parent::mes_numero[$data[0]];
             } else {
                 $arrayIndices[$idKey][] = $filtered;
                 $idKey++;
@@ -855,6 +840,96 @@ class IndicesJsonController extends AbstractController
         }
 
         return $anoMesIndice;
+    }
+
+    /**
+     * Busca os índices CUB-SP (Sinduscon)
+     *
+     * @return string
+     */
+    public function indiceCubsp()
+    {
+        $client = new Client();
+        $response = $client->request('GET', parent::url_cubsp);
+        $html = $response->getBody()->getContents();
+        $crawler = new Crawler($html);
+        $anoMesIndice = [];
+
+        $arrayIndices = $crawler->filter('td')->each(function (Crawler $cell, $i) {
+            $txt = $cell->text();
+            if (strlen($txt) > 15) {
+                return false;
+            }
+            return $txt;
+        });
+
+        $filteredArray = array_filter($arrayIndices, function ($value) {
+            return $value !== false && $value !== '';
+        });
+
+        $arrayIndices = [];
+        $anoMesIndice = [];
+        $buscaQual = true;
+        $idKey = 0;
+
+        foreach ($filteredArray as $key => $filtered) {
+
+            if ($buscaQual) {
+                $data = explode("/", $filtered);
+                $arrayIndices[$idKey][] = $data[1];
+                $arrayIndices[$idKey][] = parent::mes_numero[$data[0]];
+            } else {
+                $arrayIndices[$idKey][] = $filtered;
+                $idKey++;
+            }
+
+            $buscaQual = !$buscaQual;
+        }
+
+        foreach ($arrayIndices as $value) {
+            $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
+        }
+
+        $resultados = [];
+        $valorCalculadoAnterior = null;
+        $valorAnterior = null;
+        foreach ($anoMesIndice as $key => $value) {
+            if ($key >= 2022) {
+                foreach ($value as $key2 => $value2) {
+
+                    $value2 = str_replace(',', '.', str_replace('.', '', $value2));
+
+                    if ($key == 2022 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.311559112052;
+
+                        if (intval($key2) == 1) {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
+                        } else {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $value[$key2-1]));
+                        }
+                    }
+
+                    $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+
+                    $valorCalculadoAnterior = $result;
+                    $valorAnterior = $value2;
+
+                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                }
+            }
+        }
+        $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = [$key, ($key2+2), number_format($valorCalculadoAnterior, 6)];
+
+        foreach ($resultados as $key => $value) {
+            $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
+        }
+        $resultadosArray[] = $resultados[$key][0].';'.($resultados[$key][1]+1).';'.$resultados[$key][2];
+        $_SESSION['cubsp'] = $resultadosArray;
+
+        header('Content-Type: application/json');
+        return json_encode($resultados);
     }
 
     public function indicesDisponiveis()
@@ -872,6 +947,7 @@ class IndicesJsonController extends AbstractController
         $resultados['ipcfgv'] = self::validaSeTemMesAtual(self::indiceIpcFgv());
         $resultados['tr'] = self::validaSeTemMesAtual(self::indiceTr());
         $resultados['tjmg'] = self::validaSeTemMesAtual(self::indiceTjmg());
+        $resultados['cubsp'] = self::validaSeTemMesAtual(self::indiceCubsp());
 
         $_SESSION['totais'] = $resultados;
 
@@ -884,11 +960,11 @@ class IndicesJsonController extends AbstractController
         $indices = json_decode($indices, true);
         foreach ($indices as $key => $values) {
             if (date('Y') == $values[0] && date('m') == $values[1]) {
-                return true;
+                return 'true';
             }
         }
 
-        return false;
+        return 'false';
 
     }
 }

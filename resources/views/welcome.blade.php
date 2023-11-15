@@ -166,6 +166,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'CUBSP') nav-link-active @endif mb-1" href="{{ route('cubsp') }}">
+                        CUBSP
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-cubsp-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-cubsp-false" style="display: none !important"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="btn btn-success nav-link mb-1" target="_blank" href="{{ route('ajustar/json') }}">
                         Atualizar tabelas cloud
                     </a>

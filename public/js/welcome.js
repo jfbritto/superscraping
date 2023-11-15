@@ -67,6 +67,7 @@ $(document).ready(function () {
         if (response.ipcfgv) $("#icon-ipcfgv-true").show(); else $("#icon-ipcfgv-false").show();
         if (response.tr) $("#icon-tr-true").show(); else $("#icon-tr-false").show();
         if (response.tjmg) $("#icon-tjmg-true").show(); else $("#icon-tjmg-false").show();
+        if (response.cubsp) $("#icon-cubsp-true").show(); else $("#icon-cubsp-false").show();
     }
 
 
