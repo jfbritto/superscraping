@@ -192,16 +192,9 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['igpdi'])->with('titulo', 'IGPDI');
         }
 
-        $crawler = $this::getCrawler(parent::url_igpdi);
         $anoMesIndice = [];
 
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpdi);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -249,16 +242,8 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['igpm'])->with('titulo', 'IGPM');
         }
 
-        $crawler = $this::getCrawler(parent::url_igpm);
-        $anoMesIndice = [];
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpm);
 
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
@@ -305,16 +290,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['inpc'])->with('titulo', 'INPC');
         }
 
-        $crawler = $this::getCrawler(parent::url_inpc);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_inpc);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -414,16 +390,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['selic'])->with('titulo', 'SELIC');
         }
 
-        $crawler = $this::getCrawler(parent::url_selic);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_selic);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -471,16 +438,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['ipc'])->with('titulo', 'IPC FIPE');
         }
 
-        $crawler = $this::getCrawler(parent::url_ipc_fipe);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fipe);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -528,16 +486,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['ipcfgv'])->with('titulo', 'IPC FGV');
         }
 
-        $crawler = $this::getCrawler(parent::url_ipc_fgv);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fgv);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -585,16 +534,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['tr'])->with('titulo', 'TR');
         }
 
-        $crawler = $this::getCrawler(parent::url_tr);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_tr);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
@@ -738,46 +678,7 @@ class IndicesController extends AbstractController
             return view('welcome')->with('resultados', $_SESSION['cubsp'])->with('titulo', 'CUBSP');
         }
 
-        $client = new Client();
-        $response = $client->request('GET', parent::url_cubsp);
-        $html = $response->getBody()->getContents();
-        $crawler = new Crawler($html);
-        $anoMesIndice = [];
-
-        $arrayIndices = $crawler->filter('td')->each(function (Crawler $cell, $i) {
-            $txt = $cell->text();
-            if (strlen($txt) > 15) {
-                return false;
-            }
-            return $txt;
-        });
-
-        $filteredArray = array_filter($arrayIndices, function ($value) {
-            return $value !== false && $value !== '';
-        });
-
-        $arrayIndices = [];
-        $anoMesIndice = [];
-        $buscaQual = true;
-        $idKey = 0;
-
-        foreach ($filteredArray as $key => $filtered) {
-
-            if ($buscaQual) {
-                $data = explode("/", $filtered);
-                $arrayIndices[$idKey][] = $data[1];
-                $arrayIndices[$idKey][] = parent::mes_numero[$data[0]];
-            } else {
-                $arrayIndices[$idKey][] = $filtered;
-                $idKey++;
-            }
-
-            $buscaQual = !$buscaQual;
-        }
-
-        foreach ($arrayIndices as $value) {
-            $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_cubsp);
 
         $resultados = [];
         $valorCalculadoAnterior = null;
