@@ -53,7 +53,7 @@ class IndicesController extends AbstractController
 
         $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
-            if (intval($key) >= 2022) {
+            if (intval($key) >= 2024) {
                 foreach ($value as $key2 => $value2) {
                     $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
                 }
@@ -88,13 +88,15 @@ class IndicesController extends AbstractController
 
         $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
-            if (intval($key) >= 2022) {
+            if (intval($key) >= 2024) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
+                    $decimalPart = str_replace(',', '.', str_replace('.', '', $value2)).'00';
+                    $resultados[] = $key.';'.$key2.';'.str_pad($decimalPart, 8, '0', STR_PAD_RIGHT);
                 }
             }
         }
-        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '.', str_replace('.', '', $value2)).'00';
+        $decimalPart = str_replace(',', '.', str_replace('.', '', $value2)).'00';
+        $resultados[] = $key.';'.($key2+1).';'.str_pad($decimalPart, 8, '0', STR_PAD_RIGHT);
 
         return view('welcome')->with('resultados', $resultados)->with('titulo', 'ORTN');
     }
@@ -159,13 +161,13 @@ class IndicesController extends AbstractController
         $resultados = [];
         $valorCalculadoAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 37.266534;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 43.441924;
                     }
 
                     $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $value2) / 100);
@@ -193,20 +195,18 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = [];
-
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpdi);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 15.619500;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 15.960200;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -243,18 +243,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpm);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 11088.341815;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 11336.545157;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -291,18 +290,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_inpc);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 409.773440;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 450.979932;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -348,13 +346,13 @@ class IndicesController extends AbstractController
         }
 
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 1.468966;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 2.628844;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -391,18 +389,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_selic);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 3.724699;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 4.725548;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -439,18 +436,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fipe);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.349279822221;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.387400;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -487,18 +483,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fgv);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.487088970242;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.527474;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -535,18 +530,17 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_tr);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.764908;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.790909;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -679,7 +673,6 @@ class IndicesController extends AbstractController
         }
 
         $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_cubsp);
-
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;

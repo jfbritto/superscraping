@@ -20,24 +20,25 @@ class IndicesJsonController extends AbstractController
     {
 
         $iteracoes = [
-            ['indice' => 'tabelaAtualizacaoMonetaria', 'valor' => '2022;1;84.807227', 'funcao' => 'indiceTjsp'],
-            ['indice' => 'ORTNOTN', 'valor' => '2022;1;1.719100', 'funcao' => 'indiceOrtn'],
-            ['indice' => 'UFIR', 'valor' => '2022;1;4.091500', 'funcao' => 'indiceUfir'],
-            ['indice' => 'CADERNETAPOUPANCA', 'valor' => '2022;1;37.475525', 'funcao' => 'indiceCadernetaPoupanca'],
-            ['indice' => 'IGPDI', 'valor' => '2022;1;15.814744', 'funcao' => 'indiceIgpdi'],
-            ['indice' => 'IGPM', 'valor' => '2022;1;11184.810389', 'funcao' => 'indiceIgpm'],
-            ['indice' => 'INPC', 'valor' => '2022;1;412.764786', 'funcao' => 'indiceInpc'],
-            ['indice' => 'IPCA', 'valor' => '2022;1;1.479689', 'funcao' => 'indiceIpca'],
-            ['indice' => 'SELIC', 'valor' => '2022;1;3.753379', 'funcao' => 'indiceSelic'],
-            ['indice' => 'IPC', 'valor' => '2022;1;0.351271', 'funcao' => 'indiceIpcFipe'],
-            ['indice' => 'IPCFGV', 'valor' => '2022;1;0.489865', 'funcao' => 'indiceIpcFgv'],
-            ['indice' => 'TR', 'valor' => '2022;1;0.765281', 'funcao' => 'indiceTr'],
+            ['indice' => 'tabelaAtualizacaoMonetaria', 'valor' => '2024;1;93.168579', 'funcao' => 'indiceTjsp'],
+            ['indice' => 'ORTNOTN', 'valor' => '2024;1;1.791000', 'funcao' => 'indiceOrtn'],
+            // ['indice' => 'UFIR', 'valor' => '2022;1;4.091500', 'funcao' => 'indiceUfir'],
+            ['indice' => 'CADERNETAPOUPANCA', 'valor' => '2024;1;43.697319', 'funcao' => 'indiceCadernetaPoupanca'],
+            ['indice' => 'IGPDI', 'valor' => '2024;1;16.062345', 'funcao' => 'indiceIgpdi'],
+            ['indice' => 'IGPM', 'valor' => '2024;1;11420.435591', 'funcao' => 'indiceIgpm'],
+            ['indice' => 'INPC', 'valor' => '2024;1;453.460321', 'funcao' => 'indiceInpc'],
+            ['indice' => 'IPCA', 'valor' => '2024;1;2.643566', 'funcao' => 'indiceIpca'],
+            ['indice' => 'SELIC', 'valor' => '2024;1;4.767605', 'funcao' => 'indiceSelic'],
+            ['indice' => 'IPC', 'valor' => '2024;1;0.388873', 'funcao' => 'indiceIpcFipe'],
+            ['indice' => 'IPCFGV', 'valor' => '2024;1;0.529004', 'funcao' => 'indiceIpcFgv'],
+            ['indice' => 'TR', 'valor' => '2024;1;0.791455', 'funcao' => 'indiceTr'],
+            ['indice' => 'CUBSP', 'valor' => '2022;1;0.312276', 'funcao' => 'indiceCubsp'],
 
-            ['indice' => 'TJMG', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJDF', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJES', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'TJRO', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
-            ['indice' => 'ENCOGE', 'valor' => '2000;1;0.230424', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJMG', 'valor' => '', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJDF', 'valor' => '', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJES', 'valor' => '', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'TJRO', 'valor' => '', 'funcao' => 'indiceTjmg'],
+            ['indice' => 'ENCOGE', 'valor' => '', 'funcao' => 'indiceTjmg'],
 
             // ['indice' => 'TJRJ', 'valor' => '2022;1;412.764786', 'funcao' => 'indiceInpc'],
         ];
@@ -69,10 +70,8 @@ class IndicesJsonController extends AbstractController
 
             $newData_array = [];
             foreach ($newData as $key => $value) {
-                $newData_array[] = ["$value[0];$value[1];$value[2]"];
+                $newData_array[] = [$value];
             }
-            $novo_mes = $value[1]+1;
-            $newData_array[] = ["$value[0];$novo_mes;$value[2]"];
 
             // Abre o arquivo para escrita
             $file = fopen($filename, 'w');
@@ -80,8 +79,10 @@ class IndicesJsonController extends AbstractController
 
             if ($file) {
                 // Escreve os dados antigos de volta no arquivo
-                foreach ($data as $row) {
-                    fputcsv($file, $row);
+                if (!in_array($iteracao['indice'], ['TJMG', 'TJDF', 'TJES', 'TJRO', 'ENCOGE'])) {
+                    foreach ($data as $row) {
+                        fputcsv($file, $row);
+                    }
                 }
 
                 // Adiciona os novos dados ao arquivo
@@ -96,14 +97,17 @@ class IndicesJsonController extends AbstractController
 
             if ($fileDuplicado) {
                 // Escreve os dados antigos de volta no arquivo
-                foreach ($data as $row) {
-                    fputcsv($fileDuplicado, $row);
+                if (!in_array($iteracao['indice'], ['TJMG', 'TJDF', 'TJES', 'TJRO', 'ENCOGE'])) {
+                    foreach ($data as $row) {
+                        fputcsv($fileDuplicado, $row);
+                    }
                 }
 
                 // Adiciona os novos dados ao arquivo
                 foreach ($newData_array as $row) {
                     fputcsv($fileDuplicado, $row);
                 }
+
 
                 fclose($fileDuplicado);
             } else {
@@ -134,12 +138,13 @@ class IndicesJsonController extends AbstractController
 
         $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
-            if (intval($key) >= 2022) {
+            if (intval($key) >= 2024) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = [$key, $key2, str_replace(',', '.', str_replace('.', '', $value2))];
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '.', str_replace('.', '', $value2));
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '.', str_replace('.', '', $value2));
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -171,12 +176,15 @@ class IndicesJsonController extends AbstractController
 
         $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
-            if (intval($key) >= 2022) {
+            if (intval($key) >= 2024) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = [$key, $key2, str_replace(',', '.', str_replace('.', '', $value2)).'00'];
+                    $decimalPart = str_replace(',', '.', str_replace('.', '', $value2)).'00';
+                    $resultados[] = $key.';'.$key2.';'.str_pad($decimalPart, 8, '0', STR_PAD_RIGHT);
                 }
             }
         }
+        $decimalPart = str_replace(',', '.', str_replace('.', '', $value2)).'00';
+        $resultados[] = $key.';'.($key2+1).';'.str_pad($decimalPart, 8, '0', STR_PAD_RIGHT);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -246,23 +254,24 @@ class IndicesJsonController extends AbstractController
         $resultados = [];
         $valorCalculadoAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 37.266534;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 43.441924;
                     }
 
                     $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $value2) / 100);
 
                     $valorCalculadoAnterior = $result;
 
-                    $resultados[] = [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -281,28 +290,19 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceIgpdi()
     {
-        $crawler = $this::getCrawler(parent::url_igpdi);
         $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpdi);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 15.619500;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 15.960200;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -316,12 +316,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] = [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -340,27 +341,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceIgpm()
     {
-        $crawler = $this::getCrawler(parent::url_igpm);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_igpm);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 11088.341815;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 11336.545157;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -374,12 +366,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] = [$key, $key2, str_replace(',', '', number_format($valorCalculadoAnterior, 6))];
+                    $resultados[] = $key.';'.$key2.';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), str_replace(',', '', number_format($valorCalculadoAnterior, 6))];
+        $resultados[] = $key.';'.($key2+1).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
+        $resultados[] = $key.';'.($key2+2).';'.str_replace(',', '', number_format($valorCalculadoAnterior, 6));
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -398,28 +391,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceInpc()
     {
-        $crawler = $this::getCrawler(parent::url_inpc);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_inpc);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 409.773440;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 450.979932;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -433,12 +416,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] = [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -468,13 +452,13 @@ class IndicesJsonController extends AbstractController
         }
 
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 1.468966;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 2.628844;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -488,12 +472,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] = [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] = $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -512,28 +497,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceSelic()
     {
-        $crawler = $this::getCrawler(parent::url_selic);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_selic);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 3.724699;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 4.725548;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -547,12 +522,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -571,28 +547,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceIpcFipe()
     {
-        $crawler = $this::getCrawler(parent::url_ipc_fipe);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fipe);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.349279822221;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.387400;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -606,12 +572,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -630,28 +597,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceIpcFgv()
     {
-        $crawler = $this::getCrawler(parent::url_ipc_fgv);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipc_fgv);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.487088970242;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.527474;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -665,12 +622,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -689,28 +647,18 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceTr()
     {
-        $crawler = $this::getCrawler(parent::url_tr);
-        $anoMesIndice = [];
-
-        for ($i=1; $i <= 12; $i++) {
-            $filtro = "#preview6 > div > table > tbody > tr:nth-child({$i})";
-            $arrayIndices = $this->indicesService->getDataIndice($crawler, $filtro);
-            foreach ($arrayIndices as $value) {
-                $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-            }
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_tr);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
         foreach ($anoMesIndice as $key => $value) {
-            if ($key >= 2022) {
+            if ($key >= 2024) {
                 foreach ($value as $key2 => $value2) {
 
                     $value2 = str_replace(',', '.', str_replace('.', '', $value2));
 
-                    if ($key == 2022 && $key2 == 1) {
-                        $valorCalculadoAnterior = 0.764908;
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 0.790909;
 
                         if (intval($key2) == 1) {
                             $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
@@ -724,12 +672,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -768,20 +717,18 @@ class IndicesJsonController extends AbstractController
             }
         }
 
-        if (env('APP_LOCAL', false)) {
-            if (!$return) {
-                $anoMesIndice = self::indiceTjmgRedundancia();
-            }
+        if (!$return) {
+            $anoMesIndice = self::indiceTjmgRedundancia();
         }
 
-        $resultados = [];
         foreach ($anoMesIndice as $key => $value) {
             if (intval($key) >= 2000) {
                 foreach ($value as $key2 => $value2) {
-                    $resultados[] = [$key, $key2, number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6)];
+                    $resultados[] = $key.';'.$key2.';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
                 }
             }
         }
+        $resultados[] = $key.';'.($key2+1).';'.number_format((1/str_replace(',', '.', str_replace('.', '', $value2))),6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -849,47 +796,7 @@ class IndicesJsonController extends AbstractController
      */
     public function indiceCubsp()
     {
-        $client = new Client();
-        $response = $client->request('GET', parent::url_cubsp);
-        $html = $response->getBody()->getContents();
-        $crawler = new Crawler($html);
-        $anoMesIndice = [];
-
-        $arrayIndices = $crawler->filter('td')->each(function (Crawler $cell, $i) {
-            $txt = $cell->text();
-            if (strlen($txt) > 15) {
-                return false;
-            }
-            return $txt;
-        });
-
-        $filteredArray = array_filter($arrayIndices, function ($value) {
-            return $value !== false && $value !== '';
-        });
-
-        $arrayIndices = [];
-        $anoMesIndice = [];
-        $buscaQual = true;
-        $idKey = 0;
-
-        foreach ($filteredArray as $key => $filtered) {
-
-            if ($buscaQual) {
-                $data = explode("/", $filtered);
-                $arrayIndices[$idKey][] = $data[1];
-                $arrayIndices[$idKey][] = parent::mes_numero[$data[0]];
-            } else {
-                $arrayIndices[$idKey][] = $filtered;
-                $idKey++;
-            }
-
-            $buscaQual = !$buscaQual;
-        }
-
-        foreach ($arrayIndices as $value) {
-            $anoMesIndice[$value[0]][intval($value[1])] = $value[2];
-        }
-
+        $anoMesIndice = $this->indicesService->getDataEcalculos(parent::url_cubsp);
         $resultados = [];
         $valorCalculadoAnterior = null;
         $valorAnterior = null;
@@ -914,13 +821,13 @@ class IndicesJsonController extends AbstractController
                     $valorCalculadoAnterior = $result;
                     $valorAnterior = $value2;
 
-                    $resultados[] =  [$key, $key2, number_format($valorCalculadoAnterior, 6)];
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
                 }
             }
         }
         $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
-        $resultados[] = [$key, ($key2+1), number_format($valorCalculadoAnterior, 6)];
-        $resultados[] = [$key, ($key2+2), number_format($valorCalculadoAnterior, 6)];
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
 
         foreach ($resultados as $key => $value) {
             $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
@@ -936,7 +843,7 @@ class IndicesJsonController extends AbstractController
     {
         $resultados['tjsp'] = self::validaSeTemMesAtual(self::indiceTjsp());
         $resultados['ortn'] = self::validaSeTemMesAtual(self::indiceOrtn());
-        $resultados['ufir'] = self::validaSeTemMesAtual(self::indiceUfir());
+        // $resultados['ufir'] = self::validaSeTemMesAtual(self::indiceUfir());
         $resultados['caderneta'] = self::validaSeTemMesAtual(self::indiceCadernetaPoupanca());
         $resultados['igpdi'] = self::validaSeTemMesAtual(self::indiceIgpdi());
         $resultados['igpm'] = self::validaSeTemMesAtual(self::indiceIgpm());
