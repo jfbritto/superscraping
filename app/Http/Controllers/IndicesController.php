@@ -378,6 +378,53 @@ class IndicesController extends AbstractController
     }
 
     /**
+     * Busca os índices IPCAE
+     *
+     * @return string
+     */
+    public function indiceIpcaE()
+    {
+        if (isset($_SESSION['ipcae'])) {
+            return view('welcome')->with('resultados', $_SESSION['ipcae'])->with('titulo', 'IPCAE');
+        }
+
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipcae);
+        $resultados = [];
+        $valorCalculadoAnterior = null;
+        $valorAnterior = null;
+        foreach ($anoMesIndice as $key => $value) {
+            if ($key >= 2024) {
+                foreach ($value as $key2 => $value2) {
+
+                    $value2 = str_replace(',', '.', str_replace('.', '', $value2));
+
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 3.864883;
+
+                        if (intval($key2) == 1) {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
+                        } else {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $value[$key2-1]));
+                        }
+                    }
+
+                    $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+
+                    $valorCalculadoAnterior = $result;
+                    $valorAnterior = $value2;
+
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
+                }
+            }
+        }
+        $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
+
+        return view('welcome')->with('resultados', $resultados)->with('titulo', 'IPCAE');
+    }
+
+    /**
      * Busca os índices SELIC
      *
      * @return string

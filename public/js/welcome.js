@@ -54,20 +54,23 @@ $(document).ready(function () {
     {
         console.log('Escrevendo na tela...');
 
-        if (response.tjsp) $("#icon-tjsp-true").show(); else $("#icon-tjsp-false").show();
-        if (response.ortn) $("#icon-ortn-true").show(); else $("#icon-ortn-false").show();
-        if (response.ufir) $("#icon-ufir-true").show(); else $("#icon-ufir-false").show();
-        if (response.caderneta) $("#icon-caderneta-true").show(); else $("#icon-caderneta-false").show();
-        if (response.igpdi) $("#icon-igpdi-true").show(); else $("#icon-igpdi-false").show();
-        if (response.igpm) $("#icon-igpm-true").show(); else $("#icon-igpm-false").show();
-        if (response.inpc) $("#icon-inpc-true").show(); else $("#icon-inpc-false").show();
-        if (response.ipca) $("#icon-ipca-true").show(); else $("#icon-ipca-false").show();
-        if (response.selic) $("#icon-selic-true").show(); else $("#icon-selic-false").show();
-        if (response.ipc) $("#icon-ipc-true").show(); else $("#icon-ipc-false").show();
-        if (response.ipcfgv) $("#icon-ipcfgv-true").show(); else $("#icon-ipcfgv-false").show();
-        if (response.tr) $("#icon-tr-true").show(); else $("#icon-tr-false").show();
-        if (response.tjmg) $("#icon-tjmg-true").show(); else $("#icon-tjmg-false").show();
-        if (response.cubsp) $("#icon-cubsp-true").show(); else $("#icon-cubsp-false").show();
+        console.log(response);
+
+        if (response.tjsp == "true") $("#icon-tjsp-true").show(); else $("#icon-tjsp-false").show();
+        if (response.ortn == "true") $("#icon-ortn-true").show(); else $("#icon-ortn-false").show();
+        if (response.ufir == "true") $("#icon-ufir-true").show(); else $("#icon-ufir-false").show();
+        if (response.caderneta == "true") $("#icon-caderneta-true").show(); else $("#icon-caderneta-false").show();
+        if (response.igpdi == "true") $("#icon-igpdi-true").show(); else $("#icon-igpdi-false").show();
+        if (response.igpm == "true") $("#icon-igpm-true").show(); else $("#icon-igpm-false").show();
+        if (response.inpc == "true") $("#icon-inpc-true").show(); else $("#icon-inpc-false").show();
+        if (response.ipca == "true") $("#icon-ipca-true").show(); else $("#icon-ipca-false").show();
+        if (response.ipcae == "true") $("#icon-ipcae-true").show(); else $("#icon-ipcae-false").show();
+        if (response.selic == "true") $("#icon-selic-true").show(); else $("#icon-selic-false").show();
+        if (response.ipc == "true") $("#icon-ipc-true").show(); else $("#icon-ipc-false").show();
+        if (response.ipcfgv == "true") $("#icon-ipcfgv-true").show(); else $("#icon-ipcfgv-false").show();
+        if (response.tr == "true") $("#icon-tr-true").show(); else $("#icon-tr-false").show();
+        if (response.tjmg == "true") $("#icon-tjmg-true").show(); else $("#icon-tjmg-false").show();
+        if (response.cubsp == "true") $("#icon-cubsp-true").show(); else $("#icon-cubsp-false").show();
     }
 
 

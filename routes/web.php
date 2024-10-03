@@ -14,6 +14,7 @@ Route::get('/igpdi', [IndicesController::class, 'indiceIgpdi'])->name('igpdi');
 Route::get('/igpm', [IndicesController::class, 'indiceIgpm'])->name('igpm');
 Route::get('/inpc', [IndicesController::class, 'indiceInpc'])->name('inpc');
 Route::get('/ipca', [IndicesController::class, 'indiceIpca'])->name('ipca');
+Route::get('/ipcae', [IndicesController::class, 'indiceIpcaE'])->name('ipcae');
 Route::get('/selic', [IndicesController::class, 'indiceSelic'])->name('selic');
 Route::get('/ipc', [IndicesController::class, 'indiceIpcFipe'])->name('ipc');
 Route::get('/ipcfgv', [IndicesController::class, 'indiceIpcFgv'])->name('ipcfgv');

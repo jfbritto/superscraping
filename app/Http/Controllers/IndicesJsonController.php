@@ -28,6 +28,7 @@ class IndicesJsonController extends AbstractController
             ['indice' => 'IGPM', 'valor' => '2024;1;11420.435591', 'funcao' => 'indiceIgpm'],
             ['indice' => 'INPC', 'valor' => '2024;1;453.460322', 'funcao' => 'indiceInpc'],
             ['indice' => 'IPCA', 'valor' => '2024;1;2.643566', 'funcao' => 'indiceIpca'],
+            ['indice' => 'IPCAE', 'valor' => '2024;1;3.880343', 'funcao' => 'indiceIpcaE'],
             ['indice' => 'SELIC', 'valor' => '2024;1;4.767605', 'funcao' => 'indiceSelic'],
             ['indice' => 'IPC', 'valor' => '2024;1;0.388872', 'funcao' => 'indiceIpcFipe'],
             ['indice' => 'IPCFGV', 'valor' => '2024;1;0.529004', 'funcao' => 'indiceIpcFgv'],
@@ -491,6 +492,56 @@ class IndicesJsonController extends AbstractController
     }
 
     /**
+     * Busca os índices IPCA
+     *
+     * @return string
+     */
+    public function indiceIpcaE()
+    {
+        $anoMesIndice = $this->indicesService->getDataEcalculos2(parent::url_ipcae);
+        $resultados = [];
+        $valorCalculadoAnterior = null;
+        $valorAnterior = null;
+        foreach ($anoMesIndice as $key => $value) {
+            if ($key >= 2024) {
+                foreach ($value as $key2 => $value2) {
+
+                    $value2 = str_replace(',', '.', str_replace('.', '', $value2));
+
+                    if ($key == 2024 && $key2 == 1) {
+                        $valorCalculadoAnterior = 3.864883;
+
+                        if (intval($key2) == 1) {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $anoMesIndice[intval($key)-1][12]));
+                        } else {
+                            $valorAnterior = str_replace(',', '.', str_replace('.', '', $value[$key2-1]));
+                        }
+                    }
+
+                    $result = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+
+                    $valorCalculadoAnterior = $result;
+                    $valorAnterior = $value2;
+
+                    $resultados[] =  $key.';'.$key2.';'.number_format($valorCalculadoAnterior, 6);
+                }
+            }
+        }
+        $valorCalculadoAnterior = $valorCalculadoAnterior + (($valorCalculadoAnterior * $valorAnterior) / 100);
+        $resultados[] = $key.';'.($key2+1).';'.number_format($valorCalculadoAnterior, 6);
+        $resultados[] = $key.';'.($key2+2).';'.number_format($valorCalculadoAnterior, 6);
+
+        foreach ($resultados as $key => $value) {
+            $resultadosArray[] = $resultados[$key][0].';'.$resultados[$key][1].';'.$resultados[$key][2];
+        }
+        $resultadosArray[] = $resultados[$key][0].';'.($resultados[$key][1]+1).';'.$resultados[$key][2];
+        $_SESSION['ipcae'] = $resultadosArray;
+
+        header('Content-Type: application/json');
+        return json_encode($resultados);
+    }
+
+    /**
      * Busca os índices SELIC
      *
      * @return string
@@ -849,6 +900,7 @@ class IndicesJsonController extends AbstractController
         $resultados['igpm'] = self::validaSeTemMesAtual(self::indiceIgpm());
         $resultados['inpc'] = self::validaSeTemMesAtual(self::indiceInpc());
         $resultados['ipca'] = self::validaSeTemMesAtual(self::indiceIpca());
+        $resultados['ipcae'] = self::validaSeTemMesAtual(self::indiceIpcaE());
         $resultados['selic'] = self::validaSeTemMesAtual(self::indiceSelic());
         $resultados['ipc'] = self::validaSeTemMesAtual(self::indiceIpcFipe());
         $resultados['ipcfgv'] = self::validaSeTemMesAtual(self::indiceIpcFgv());
@@ -865,8 +917,11 @@ class IndicesJsonController extends AbstractController
     public function validaSeTemMesAtual($indices)
     {
         $indices = json_decode($indices, true);
+        array_pop($indices);
+
         foreach ($indices as $key => $values) {
-            if (date('Y') == $values[0] && date('m') == $values[1]) {
+            $date = explode(";", $values);
+            if (date('Y') == $date[0] && date('m') == $date[1]) {
                 return 'true';
             }
         }

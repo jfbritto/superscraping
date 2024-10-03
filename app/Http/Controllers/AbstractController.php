@@ -18,6 +18,7 @@ class AbstractController extends Controller
     const url_igpm = "https://www.ecalculos.com.br/utilitarios/igpm-fgv.php"; //https://debit.com.br/tabelas/tabela-completa.php?indice=igpm
     const url_inpc = "https://www.ecalculos.com.br/utilitarios/inpc-ibge.php"; //https://debit.com.br/tabelas/tabela-completa.php?indice=inpc
     const url_ipca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json";
+    const url_ipcae = "https://www.ecalculos.com.br/utilitarios/ipca-e-ibge.php";
     const url_selic = "https://www.ecalculos.com.br/utilitarios/selic-bacen.php"; //https://debit.com.br/tabelas/tabela-completa.php?indice=selic
     const url_ipc_fipe = "https://www.ecalculos.com.br/utilitarios/ipc-fipe.php"; //https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fipe
     const url_ipc_fgv = "https://www.ecalculos.com.br/utilitarios/ipc-di-fgv.php"; //https://debit.com.br/tabelas/tabela-completa.php?indice=ipc_fgv
@@ -27,6 +28,8 @@ class AbstractController extends Controller
     const url_tjmg_alternativo = "https://www.ecalculos.com.br/utilitarios/justica-estadual.php";
 
     const url_cubsp = "https://www.ecalculos.com.br/utilitarios/cub-sinduscon.php";
+
+    const url_taxalegal = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.29543/dados?formato=json";
 
     const mes_numero = [
             'janeiro' => '01',

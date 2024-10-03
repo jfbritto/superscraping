@@ -88,13 +88,13 @@
                         <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ortn-false" style="display: none !important"></i>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'UFIR') nav-link-active @endif mb-1" href="{{ route('ufir') }}">
                         UFIR
                         <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ufir-true" style="display: none !important"></i>
                         <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ufir-false" style="display: none !important"></i>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="btn btn-secondary nav-link  @if ($titulo == 'POUPANÇA') nav-link-active @endif mb-1" href="{{ route('caderneta') }}">
                         POUPANÇA
@@ -128,6 +128,13 @@
                         IPCA
                         <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipca-true" style="display: none !important"></i>
                         <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ipca-false" style="display: none !important"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-secondary nav-link  @if ($titulo == 'IPCAE') nav-link-active @endif mb-1" href="{{ route('ipcae') }}">
+                        IPCAE
+                        <i class="fa fa-check-circle check-true" aria-hidden="true" id="icon-ipcae-true" style="display: none !important"></i>
+                        <i class="fa fa-times-circle check-false" aria-hidden="true" id="icon-ipcae-false" style="display: none !important"></i>
                     </a>
                 </li>
                 <li class="nav-item">
